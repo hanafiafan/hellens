@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hellens Scraper — Cari Prospek dari Google Maps, Kelola di Satu Dashboard</title>
+<meta name="description" content="Hellens Scraper mengekstrak data bisnis dari Google Maps lewat ekstensi Chrome, merapikan kontak, mengirim WhatsApp, dan mengelola follow-up dari satu dashboard." />
+<link rel="icon" type="image/png" href="/brand/Hellens Icon.png" />
+<link rel="canonical" href="https://hellens.dev/scraper/" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500..700&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#042718; --muted:#4a5f55; --line:#dfe9e4; --accent:#059669; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:#f4f9f7; color:var(--ink);
+         font-family:'Geist',-apple-system,BlinkMacSystemFont,sans-serif;
+         -webkit-font-smoothing:antialiased; line-height:1.7; }
+  .wrap { max-width:780px; margin:0 auto; padding:56px 22px 96px; }
+  header { border-bottom:1px solid var(--line); padding-bottom:26px; margin-bottom:38px; }
+  .brand { display:inline-flex; align-items:center; gap:9px; text-decoration:none; color:var(--ink);
+           font-weight:700; letter-spacing:-.02em; font-size:15px; }
+  .brand span { color:var(--accent); }
+  h1 { font-family:'Fraunces',Georgia,serif; font-weight:600; font-size:clamp(2rem,5vw,2.8rem);
+       line-height:1.08; letter-spacing:-.02em; margin:26px 0 14px; }
+  h2 { font-family:'Fraunces',Georgia,serif; font-weight:600; font-size:1.3rem;
+       letter-spacing:-.01em; margin:40px 0 10px; }
+  .lede { font-size:17px; color:#183b2c; }
+  p, li { color:#183b2c; font-size:15.5px; }
+  ul { padding-left:20px; }
+  li { margin:8px 0; }
+  a { color:var(--accent); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; margin-top:18px; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:12px; padding:16px 18px; }
+  .card h3 { margin:0 0 6px; font-size:14px; letter-spacing:.04em; text-transform:uppercase;
+             color:var(--accent); font-weight:700; }
+  .card p { margin:0; font-size:14.5px; }
+  .callout { background:#fff; border:1px solid var(--line); border-left:3px solid var(--accent);
+             border-radius:10px; padding:16px 18px; margin:22px 0; }
+  .callout p { margin:0; font-size:15px; }
+  .cta { display:inline-block; margin-top:20px; background:var(--ink); color:#fff; text-decoration:none;
+         font-weight:600; font-size:15px; padding:12px 22px; border-radius:999px; }
+  footer { margin-top:56px; padding-top:24px; border-top:1px solid var(--line);
+           color:var(--muted); font-size:13.5px; }
+  footer a { color:var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="/">HELLENS<span>.DEV</span></a>
+  </header>
+
+  <h1>Hellens Scraper</h1>
+  <p class="lede">Hellens Scraper mengekstrak data bisnis dari Google Maps lewat ekstensi Chrome,
+  merapikan kontaknya, mengirim pesan WhatsApp, dan mengelola tindak lanjut — semuanya dari satu
+  dashboard. Dibuat untuk tim sales dan pemilik usaha yang mencari calon pelanggan baru.</p>
+
+  <h2>Apa yang dilakukan aplikasi ini</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Scraping prospek</h3>
+      <p>Ekstensi Chrome terhubung langsung dengan Google Maps. Atur kata kunci, area, dan jumlah hasil —
+      data masuk ke dashboard secara real-time.</p>
+    </div>
+    <div class="card">
+      <h3>Pusat pesan WhatsApp</h3>
+      <p>Inbox, blast, follow-up, template pesan, dan validasi nomor kontak dalam satu alur kerja.</p>
+    </div>
+    <div class="card">
+      <h3>CRM &amp; tindak lanjut</h3>
+      <p>Pantau prospek, jadwal balasan, status deal, dan tugas tim agar tidak ada peluang terlewat.</p>
+    </div>
+    <div class="card">
+      <h3>Database prospek</h3>
+      <p>Kontak, lead, deal, percakapan, dan aktivitas tersimpan rapi serta bisa difilter kapan saja.</p>
+    </div>
+    <div class="card">
+      <h3>Ekspor data</h3>
+      <p>Unduh hasil dalam format CSV dan Excel untuk dipakai di tool lain.</p>
+    </div>
+    <div class="card">
+      <h3>Kontrol tim</h3>
+      <p>Peran pengguna, batas pemakaian, tagihan, audit, dan konfigurasi workspace.</p>
+    </div>
+  </div>
+
+  <h2>Mengapa aplikasi ini meminta Akun Google Anda</h2>
+  <div class="callout">
+    <p>Hellens Scraper menggunakan Sign in with Google <strong>hanya untuk autentikasi</strong> — membuat
+    dan mengakses workspace Anda. Kami menerima nama, alamat email, dan foto profil Google Anda.
+    Kami <strong>tidak</strong> membaca email, berkas Drive, atau isi layanan Google lain milik Anda.
+    Selengkapnya pada <a href="/privacy/">Kebijakan Privasi</a>.</p>
+  </div>
+
+  <h2>Cara memulai</h2>
+  <ul>
+    <li>Install ekstensi Hellens untuk Chrome.</li>
+    <li>Buka Google Maps dan aktifkan opsi &ldquo;Perbarui hasil saat peta digeser&rdquo;.</li>
+    <li>Izinkan popup dan lokasi untuk maps.google.com.</li>
+    <li>Buat job scraping — lead langsung masuk ke dashboard.</li>
+  </ul>
+  <p>Tersedia trial gratis dengan 100 kredit, tanpa kartu kredit.</p>
+
+  <a class="cta" href="https://scraper.hellens.dev">Buka aplikasi &rarr;</a>
+
+  <h2>Tentang pembuat</h2>
+  <p>Hellens Scraper dikembangkan oleh Hellens.dev, studio digital yang membangun website, toko online,
+  chatbot, dan sistem automasi operasional.</p>
+  <p>Email: <a href="mailto:hellensdev@gmail.com">hellensdev@gmail.com</a><br />
+  WhatsApp: <a href="https://wa.me/6285726465083" target="_blank" rel="noopener noreferrer">+62 857-2646-5083</a></p>
+
+  <footer>
+    <a href="/">hellens.dev</a> &nbsp;·&nbsp;
+    <a href="/privacy/">Kebijakan Privasi</a> &nbsp;·&nbsp;
+    <a href="/terms/">Syarat Layanan</a>
+  </footer>
+</div>
+</body>
+</html>
