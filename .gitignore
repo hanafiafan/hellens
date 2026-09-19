@@ -4,12 +4,7 @@ node_modules/
 # Build output
 dist/
 
-# Frame sequences & video sumber — total ~190 MB, ribuan file.
-# Sengaja tidak masuk git: repo jadi sangat berat dan tiap pergantian animasi
-# menyimpan versi lama secara permanen di riwayat. Semua bisa dibuat ulang dari
-# video sumber dengan pipeline ffmpeg + cwebp (lihat catatan di README).
-public/*-frames/
-public/*.mp4
+# Frame sequence & video dikelola Git LFS (lihat .gitattributes), tidak di-ignore.
 
 # OS / editor
 .DS_Store
