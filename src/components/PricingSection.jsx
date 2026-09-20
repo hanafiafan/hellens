@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { ArrowUpRight } from 'lucide-react';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
 export default function PricingSection() {
   const [currency, setCurrency] = useState('IDR');
+  const sectionRef = useRef(null);
+  useScrollReveal(sectionRef, '.reveal-card');
 
   const TIERS = [
     {
@@ -48,7 +51,7 @@ export default function PricingSection() {
   ];
 
   return (
-    <section id="pricing" className="py-24 sm:py-36 px-6 sm:px-8 lg:px-12 bg-[#f4f9f7] text-[#042718]">
+    <section ref={sectionRef} id="pricing" className="py-24 sm:py-36 px-6 sm:px-8 lg:px-12 bg-[#f4f9f7] text-[#042718]">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12">
@@ -91,10 +94,10 @@ export default function PricingSection() {
           {TIERS.map((t) => (
             <div
               key={t.name}
-              className={`rounded-2xl p-6 flex flex-col justify-between transition-all ${
+              className={`reveal-card rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 ${
                 t.featured
-                  ? 'bg-white border-2 border-emerald-700 shadow-[4px_4px_0px_rgba(4,39,24,0.18)]'
-                  : 'bg-white border border-[#042718]/15 shadow-[3px_3px_0px_rgba(4,39,24,0.06)]'
+                  ? 'bg-white border-2 border-emerald-700 shadow-[4px_4px_0px_rgba(4,39,24,0.18)] hover:shadow-[6px_8px_0px_rgba(4,39,24,0.18)]'
+                  : 'bg-white border border-[#042718]/15 shadow-[3px_3px_0px_rgba(4,39,24,0.06)] hover:shadow-[5px_7px_0px_rgba(4,39,24,0.1)]'
               }`}
             >
               <div>

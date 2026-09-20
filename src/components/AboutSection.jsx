@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { MapPin } from 'lucide-react';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
 const CLIENTS = [
   'Loka Bumi Persada',
@@ -20,12 +21,15 @@ const CLIENTS = [
 ];
 
 export default function AboutSection() {
+  const sectionRef = useRef(null);
+  useScrollReveal(sectionRef, '.reveal-about');
+
   return (
-    <section id="about" className="py-24 sm:py-36 px-6 sm:px-8 lg:px-12 bg-white text-[#042718]">
+    <section ref={sectionRef} id="about" className="py-24 sm:py-36 px-6 sm:px-8 lg:px-12 bg-white text-[#042718]">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
           {/* Left info */}
-          <div className="lg:col-span-2">
+          <div className="reveal-about lg:col-span-2">
             <span className="text-xs font-mono font-bold tracking-widest text-emerald-800 uppercase block mb-1">
               [ 03 // TENTANG HELLENS ]
             </span>
@@ -41,7 +45,7 @@ export default function AboutSection() {
           </div>
 
           {/* Right card */}
-          <div className="rounded-2xl bg-[#f8faf9] border border-[#042718]/15 p-5 shadow-[3px_3px_0px_rgba(4,39,24,0.06)]">
+          <div className="reveal-about rounded-2xl bg-[#f8faf9] border border-[#042718]/15 p-5 shadow-[3px_3px_0px_rgba(4,39,24,0.06)]">
             <div className="flex items-center gap-2 mb-2">
               <MapPin className="w-4 h-4 text-emerald-800" />
               <span className="text-xs font-mono font-bold text-[#042718]">
@@ -58,7 +62,7 @@ export default function AboutSection() {
         </div>
 
         {/* Client pills */}
-        <div className="mt-14 pt-8 border-t border-[#042718]/10">
+        <div className="reveal-about mt-14 pt-8 border-t border-[#042718]/10">
           <span className="text-[11px] font-mono text-[#042718]/60 uppercase tracking-wider block mb-4">
             Klien & Partner Terpercaya:
           </span>
@@ -66,7 +70,7 @@ export default function AboutSection() {
             {CLIENTS.map((c) => (
               <span
                 key={c}
-                className="text-xs font-mono px-3 py-1 rounded-md bg-[#f4f9f7] border border-[#042718]/10 text-[#042718]"
+                className="text-xs font-mono px-3 py-1 rounded-md bg-[#f4f9f7] border border-[#042718]/10 text-[#042718] transition-colors hover:bg-emerald-50 hover:border-emerald-700/30"
               >
                 {c}
               </span>

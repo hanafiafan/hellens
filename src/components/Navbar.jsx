@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'motion/react';
 import { Menu, X, ArrowUpRight, MessageCircle } from 'lucide-react';
 import HellensLogo from './HellensLogo';
 import { LiquidGlass } from './LiquidGlass';
@@ -70,13 +71,18 @@ export default function Navbar({ activeSection, onNavigate, onReplayLoader }) {
                   <button
                     key={link.id}
                     onClick={() => handleLinkClick(link.id)}
-                    className={`px-3.5 py-1 rounded-full text-xs font-medium transition-all cursor-pointer ${
-                      isActive
-                        ? 'bg-[#042718] text-white shadow-sm'
-                        : 'text-[#042718]/70 hover:text-[#042718] hover:bg-black/5'
+                    className={`relative px-3.5 py-1 rounded-full text-xs font-medium cursor-pointer ${
+                      isActive ? 'text-white' : 'text-[#042718]/70 hover:text-[#042718] hover:bg-black/5 transition-colors'
                     }`}
                   >
-                    {link.name}
+                    {isActive && (
+                      <motion.span
+                        layoutId="navActivePill"
+                        className="absolute inset-0 rounded-full bg-[#042718] shadow-sm"
+                        transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                      />
+                    )}
+                    <span className="relative z-10">{link.name}</span>
                   </button>
                 );
               })}

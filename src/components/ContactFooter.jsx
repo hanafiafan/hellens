@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { MessageCircle, Mail, ArrowUpRight, Send } from 'lucide-react';
 import HellensLogo from './HellensLogo';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
 export default function ContactFooter({ onNavigate }) {
   const [brief, setBrief] = useState('');
+  const sectionRef = useRef(null);
+  useScrollReveal(sectionRef, '.reveal-contact');
 
   const handleSendWA = (e) => {
     e.preventDefault();
@@ -15,11 +18,11 @@ export default function ContactFooter({ onNavigate }) {
   };
 
   return (
-    <footer id="contact" className="py-24 sm:py-32 px-6 sm:px-8 lg:px-12 bg-[#042718] text-white">
+    <footer ref={sectionRef} id="contact" className="py-24 sm:py-32 px-6 sm:px-8 lg:px-12 bg-[#042718] text-white">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center pb-14 border-b border-white/15">
           {/* Left info */}
-          <div>
+          <div className="reveal-contact">
             <span className="text-xs font-mono font-bold tracking-widest text-emerald-400 uppercase block mb-1">
               [ 04 // KONTAK ]
             </span>
@@ -35,7 +38,7 @@ export default function ContactFooter({ onNavigate }) {
                 href="https://wa.me/6285726465083?text=Halo%20Hellens%2C%20saya%20tertarik%20konsultasi%20proyek"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-xs font-semibold text-[#042718] bg-emerald-400 hover:bg-emerald-300 transition-colors"
+                className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-xs font-semibold text-[#042718] bg-emerald-400 hover:bg-emerald-300 hover:scale-[1.03] transition-all"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>WhatsApp: 0857-2646-5083</span>
@@ -54,7 +57,7 @@ export default function ContactFooter({ onNavigate }) {
           {/* Right quick note form */}
           <form
             onSubmit={handleSendWA}
-            className="rounded-2xl bg-white/5 border border-white/15 p-5 flex flex-col gap-3 backdrop-blur-md"
+            className="reveal-contact rounded-2xl bg-white/5 border border-white/15 p-5 flex flex-col gap-3 backdrop-blur-md"
           >
             <label className="text-xs font-mono text-emerald-300 uppercase tracking-wider">
               Kirim Pesan Langsung ke WhatsApp:
