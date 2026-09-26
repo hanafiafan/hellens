@@ -39,11 +39,23 @@ export default function ColorfulLogoLoader({ onFinish }) {
   const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
-    const hold = setTimeout(() => setIsExiting(true), 2400);
-    const done = setTimeout(() => onFinish && onFinish(), 2900);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      onFinish?.();
+      return undefined;
+    }
+    const hold = setTimeout(() => setIsExiting(true), 1150);
+    const done = setTimeout(() => onFinish?.(), 1550);
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setIsExiting(true);
+        onFinish?.();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
     return () => {
       clearTimeout(hold);
       clearTimeout(done);
+      window.removeEventListener('keydown', onKeyDown);
     };
   }, [onFinish]);
 
@@ -54,7 +66,7 @@ export default function ColorfulLogoLoader({ onFinish }) {
 
   return (
     <div
-      className={`fixed inset-0 z-[100] flex items-center justify-center bg-black text-white transition-all duration-500 ${
+      className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#071827] text-[#FFF9EF] transition-all duration-500 ${
         isExiting ? 'opacity-0 scale-105 pointer-events-none' : 'opacity-100 scale-100'
       }`}
     >
@@ -65,19 +77,19 @@ export default function ColorfulLogoLoader({ onFinish }) {
 
         /* colored leading wiper bar */
         .hl-wipe { position:absolute; top:6%; bottom:6%; left:0; width:5px; border-radius:3px;
-          background:linear-gradient(#ff2d2d,#ff8a00); box-shadow:0 0 14px 2px #ff6a00; opacity:0;
+          background:linear-gradient(#e96a4a,#f6b29c); box-shadow:0 0 14px 2px #e96a4a; opacity:0;
           animation: hl-wipe 1.1s cubic-bezier(.5,0,.15,1) .1s forwards; }
         @keyframes hl-wipe { 0%{left:0;opacity:0} 10%{opacity:1} 85%{left:100%;opacity:1} 100%{left:106%;opacity:0} }
 
         /* colored baseline guide extending across */
         .hl-hline { position:absolute; top:55%; left:-6%; height:3px; width:0; border-radius:2px;
-          background:linear-gradient(90deg,#ff2d2d,#ff8a00,#f5a623); opacity:0;
+          background:linear-gradient(90deg,#e96a4a,#f29a7e,#f6b29c); opacity:0;
           animation: hl-hline 1.2s ease .15s forwards; }
         @keyframes hl-hline { 0%{width:0;opacity:0} 20%{opacity:.95} 65%{width:112%} 100%{width:112%;opacity:0} }
 
         /* spark flick anchored to the logo's top tip (676.65,0 in viewBox) */
         .hl-sparks { position:absolute; inset:0; width:100%; height:100%; pointer-events:none;
-          filter: drop-shadow(0 0 7px #ff6a00) drop-shadow(0 0 3px #fff); }
+          filter: drop-shadow(0 0 7px #e96a4a) drop-shadow(0 0 3px #fff9ef); }
         .hl-spark { transform-box:fill-box; transform-origin:center; opacity:0;
           animation: hl-spark .55s ease .95s forwards; }
         @keyframes hl-spark { 0%{opacity:0;transform:scale(.2)} 45%{opacity:1;transform:scale(1.25)} 100%{opacity:0;transform:scale(2.1)} }
@@ -93,8 +105,8 @@ export default function ColorfulLogoLoader({ onFinish }) {
           className="hl-sparks"
         >
           <g className="hl-spark">
-            <circle cx="676.65" cy="9" r="20" fill="#ff8a00" />
-            <circle cx="676.65" cy="9" r="8" fill="#fff" />
+            <circle cx="676.65" cy="9" r="20" fill="#e96a4a" />
+            <circle cx="676.65" cy="9" r="8" fill="#fff9ef" />
           </g>
         </svg>
       </div>
@@ -103,7 +115,7 @@ export default function ColorfulLogoLoader({ onFinish }) {
         onClick={skip}
         className="absolute top-5 right-5 text-[10px] font-mono text-white/50 hover:text-white px-2.5 py-1 rounded border border-white/10 hover:bg-white/5 transition-colors cursor-pointer"
       >
-        SKIP [ESC]
+        Lewati [ESC]
       </button>
     </div>
   );

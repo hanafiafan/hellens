@@ -10,26 +10,26 @@ export default function HellensLogo({
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 747.14 513.71"
-      className={`${className} ${glow ? 'filter drop-shadow-[0_0_12px_rgba(16,185,129,0.5)]' : ''}`}
+      className={`${className} ${glow ? 'filter drop-shadow-[0_0_12px_rgba(233,106,74,0.5)]' : ''}`}
       aria-label="Hellens Logo"
     >
       <defs>
         {/* Colorful neon linear gradients */}
         <linearGradient id="hl-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#06b6d4" />
-          <stop offset="100%" stopColor="#3b82f6" />
+          <stop offset="0%" stopColor="#102A43" />
+          <stop offset="100%" stopColor="#4F779A" />
         </linearGradient>
         <linearGradient id="hl-grad-2" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#10b981" />
-          <stop offset="100%" stopColor="#14b8a6" />
+          <stop offset="0%" stopColor="#E96A4A" />
+          <stop offset="100%" stopColor="#F29A7E" />
         </linearGradient>
         <linearGradient id="hl-grad-3" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#8b5cf6" />
-          <stop offset="100%" stopColor="#ec4899" />
+          <stop offset="0%" stopColor="#315979" />
+          <stop offset="100%" stopColor="#102A43" />
         </linearGradient>
         <linearGradient id="hl-grad-4" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#f59e0b" />
-          <stop offset="100%" stopColor="#10b981" />
+          <stop offset="0%" stopColor="#F6B29C" />
+          <stop offset="100%" stopColor="#E96A4A" />
         </linearGradient>
       </defs>
 

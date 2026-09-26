@@ -69,7 +69,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f4f9f7] text-[#042718] flex flex-col relative selection:bg-emerald-300 selection:text-emerald-950 font-sans">
+    <div className="min-h-screen bg-[#F5F1E8] text-[#102A43] flex flex-col relative selection:bg-[#F29A7E] selection:text-[#102A43] font-sans">
       {/* Shared SVG filter for the liquid-glass effect */}
       <GlassFilter />
 

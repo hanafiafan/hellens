@@ -56,7 +56,7 @@ export default function ServicesSection() {
   }, []);
 
   return (
-    <section id="services-visual" ref={trackRef} className="relative bg-white" style={{ height: `${TRACK_VH}vh` }}>
+    <section id="services" ref={trackRef} className="relative bg-white" style={{ height: `${TRACK_VH}vh` }}>
       {/* Pinned stage: centered first, then scroll drives the corridor inward,
           and past the track it releases to the next section (gallery keeps auto-playing). */}
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-white isolate">

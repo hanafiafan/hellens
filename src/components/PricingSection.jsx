@@ -51,27 +51,27 @@ export default function PricingSection() {
   ];
 
   return (
-    <section ref={sectionRef} id="pricing" className="py-24 sm:py-36 px-6 sm:px-8 lg:px-12 bg-[#f4f9f7] text-[#042718]">
+    <section ref={sectionRef} id="pricing" className="pricing-section py-24 sm:py-36 px-6 sm:px-8 lg:px-12 bg-[#F5F1E8] text-[#102A43]">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12">
           <div>
-            <span className="text-xs font-mono font-bold tracking-widest text-emerald-800 uppercase block mb-1">
+            <span className="text-xs font-mono font-bold tracking-widest text-[#C9563B] uppercase block mb-1">
               [ 02 // RATE CARD ]
             </span>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#042718]">
+            <h2 className="section-heading text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#102A43]">
               Estimasi Biaya Transparan
             </h2>
           </div>
 
           {/* Currency Toggle */}
-          <div className="inline-flex items-center p-1 rounded-full bg-white border border-[#042718]/15 shadow-sm">
+          <div className="inline-flex items-center p-1 rounded-full bg-[#FFFDF8] border border-[#102A43]/15 shadow-sm">
             <button
               onClick={() => setCurrency('IDR')}
               className={`px-3 py-1 rounded-full text-xs font-mono font-semibold transition-all cursor-pointer ${
                 currency === 'IDR'
-                  ? 'bg-[#042718] text-white'
-                  : 'text-[#042718]/70 hover:text-[#042718]'
+                  ? 'bg-[#102A43] text-[#FFF9EF]'
+                  : 'text-[#102A43]/70 hover:text-[#102A43]'
               }`}
             >
               IDR (Rp)
@@ -80,8 +80,8 @@ export default function PricingSection() {
               onClick={() => setCurrency('USD')}
               className={`px-3 py-1 rounded-full text-xs font-mono font-semibold transition-all cursor-pointer ${
                 currency === 'USD'
-                  ? 'bg-[#042718] text-white'
-                  : 'text-[#042718]/70 hover:text-[#042718]'
+                  ? 'bg-[#102A43] text-[#FFF9EF]'
+                  : 'text-[#102A43]/70 hover:text-[#102A43]'
               }`}
             >
               USD ($)
@@ -94,54 +94,54 @@ export default function PricingSection() {
           {TIERS.map((t) => (
             <div
               key={t.name}
-              className={`reveal-card rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 ${
+              className={`pricing-card reveal-card rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 ${
                 t.featured
-                  ? 'bg-white border-2 border-emerald-700 shadow-[4px_4px_0px_rgba(4,39,24,0.18)] hover:shadow-[6px_8px_0px_rgba(4,39,24,0.18)]'
-                  : 'bg-white border border-[#042718]/15 shadow-[3px_3px_0px_rgba(4,39,24,0.06)] hover:shadow-[5px_7px_0px_rgba(4,39,24,0.1)]'
+                  ? 'bg-[#FFFDF8] border-2 border-[#E96A4A] shadow-[4px_4px_0px_rgba(16,42,67,0.16)] hover:shadow-[6px_8px_0px_rgba(16,42,67,0.16)]'
+                  : 'bg-[#FFFDF8] border border-[#102A43]/15 shadow-[3px_3px_0px_rgba(16,42,67,0.06)] hover:shadow-[5px_7px_0px_rgba(16,42,67,0.1)]'
               }`}
             >
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-bold font-mono text-[#042718]">
+                  <span className="text-sm font-bold font-mono text-[#102A43]">
                     {t.name}
                   </span>
                   {t.featured && (
-                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-900">
+                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-[#FAD9CF] text-[#8F3827]">
                       POPULER
                     </span>
                   )}
                 </div>
 
-                <div className="text-xl sm:text-2xl font-bold text-[#042718] tracking-tight">
+                <div className="text-xl sm:text-2xl font-bold text-[#102A43] tracking-tight">
                   {t.price}
                 </div>
-                <div className="text-[11px] text-[#042718]/60 font-mono mt-0.5">
+                <div className="text-[11px] text-[#102A43]/60 font-mono mt-0.5">
                   Waktu: {t.time}
                 </div>
 
-                <p className="text-xs text-[#042718]/80 font-medium mt-3 pb-4 border-b border-[#042718]/10">
+                <p className="text-xs text-[#102A43]/80 font-medium mt-3 pb-4 border-b border-[#102A43]/10">
                   {t.scope}
                 </p>
 
                 <ul className="mt-4 flex flex-col gap-2">
                   {t.items.map((it) => (
-                    <li key={it} className="text-xs text-[#042718]/75 flex items-start gap-2">
-                      <span className="text-emerald-700 font-bold">✓</span>
+                    <li key={it} className="text-xs text-[#102A43]/75 flex items-start gap-2">
+                      <span className="text-[#E96A4A] font-bold">✓</span>
                       <span>{it}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-[#042718]/10">
+              <div className="mt-6 pt-4 border-t border-[#102A43]/10">
                 <a
                   href={`https://wa.me/6285726465083?text=${encodeURIComponent(t.wa)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`w-full flex items-center justify-center gap-1.5 rounded-full py-2 text-xs font-semibold transition-all ${
                     t.featured
-                      ? 'bg-[#042718] hover:bg-[#073c26] text-white'
-                      : 'bg-slate-100 hover:bg-slate-200 text-[#042718]'
+                      ? 'bg-[#102A43] hover:bg-[#173B5E] text-[#FFF9EF]'
+                      : 'bg-[#E8EDF1] hover:bg-[#DCE4EA] text-[#102A43]'
                   }`}
                 >
                   <span>Pilih Paket</span>

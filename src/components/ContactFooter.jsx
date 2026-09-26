@@ -18,15 +18,15 @@ export default function ContactFooter({ onNavigate }) {
   };
 
   return (
-    <footer ref={sectionRef} id="contact" className="py-24 sm:py-32 px-6 sm:px-8 lg:px-12 bg-[#042718] text-white">
+    <footer ref={sectionRef} id="contact" className="contact-section py-24 sm:py-32 px-6 sm:px-8 lg:px-12 bg-[#102A43] text-[#FFF9EF]">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center pb-14 border-b border-white/15">
           {/* Left info */}
           <div className="reveal-contact">
-            <span className="text-xs font-mono font-bold tracking-widest text-emerald-400 uppercase block mb-1">
+            <span className="text-xs font-mono font-bold tracking-widest text-[#F29A7E] uppercase block mb-1">
               [ 04 // KONTAK ]
             </span>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white">
+            <h2 className="section-heading text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white">
               Mulai Proyek Digital Anda.
             </h2>
             <p className="mt-2 text-xs sm:text-sm text-white/70 leading-relaxed max-w-md">
@@ -38,7 +38,7 @@ export default function ContactFooter({ onNavigate }) {
                 href="https://wa.me/6285726465083?text=Halo%20Hellens%2C%20saya%20tertarik%20konsultasi%20proyek"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-xs font-semibold text-[#042718] bg-emerald-400 hover:bg-emerald-300 hover:scale-[1.03] transition-all"
+                className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-xs font-semibold text-[#102A43] bg-[#F29A7E] hover:bg-[#F6B29C] hover:scale-[1.03] transition-all"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>WhatsApp: 0857-2646-5083</span>
@@ -57,22 +57,23 @@ export default function ContactFooter({ onNavigate }) {
           {/* Right quick note form */}
           <form
             onSubmit={handleSendWA}
-            className="reveal-contact rounded-2xl bg-white/5 border border-white/15 p-5 flex flex-col gap-3 backdrop-blur-md"
+            className="contact-form reveal-contact rounded-2xl bg-white/5 border border-white/15 p-5 flex flex-col gap-3 backdrop-blur-md"
           >
-            <label className="text-xs font-mono text-emerald-300 uppercase tracking-wider">
+            <label htmlFor="project-brief" className="text-xs font-mono text-[#F6B29C] uppercase tracking-wider">
               Kirim Pesan Langsung ke WhatsApp:
             </label>
             <textarea
+              id="project-brief"
               rows={3}
               required
               value={brief}
               onChange={(e) => setBrief(e.target.value)}
               placeholder="Tulis ringkasan proyek yang ingin Anda buat..."
-              className="w-full rounded-xl bg-black/40 border border-white/15 p-3 text-xs text-white placeholder-white/40 focus:border-emerald-400 outline-none resize-none"
+              className="w-full rounded-xl bg-[#071827]/55 border border-white/15 p-3 text-xs text-white placeholder-white/40 focus:border-[#F29A7E] outline-none resize-none"
             />
             <button
               type="submit"
-              className="inline-flex items-center justify-center gap-2 rounded-full py-2.5 text-xs font-semibold text-[#042718] bg-white hover:bg-slate-100 transition-colors cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 rounded-full py-2.5 text-xs font-semibold text-[#102A43] bg-[#FFF9EF] hover:bg-[#F5F1E8] transition-colors cursor-pointer"
             >
               <span>Kirim ke WhatsApp Hellens</span>
               <Send className="w-3.5 h-3.5" />
@@ -89,10 +90,10 @@ export default function ContactFooter({ onNavigate }) {
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 font-mono text-[11px]">
-            <a href="/karya/" className="hover:text-emerald-300 transition-colors">Karya</a>
-            <a href="/scraper/" className="hover:text-emerald-300 transition-colors">Hellens Scraper</a>
-            <a href="/privacy/" className="hover:text-emerald-300 transition-colors">Kebijakan Privasi</a>
-            <a href="/terms/" className="hover:text-emerald-300 transition-colors">Syarat Layanan</a>
+            <a href="/karya/" className="hover:text-[#F6B29C] transition-colors">Karya</a>
+            <a href="/scraper/" className="hover:text-[#F6B29C] transition-colors">Hellens Scraper</a>
+            <a href="/privacy/" className="hover:text-[#F6B29C] transition-colors">Kebijakan Privasi</a>
+            <a href="/terms/" className="hover:text-[#F6B29C] transition-colors">Syarat Layanan</a>
             <span>Yogyakarta, Indonesia</span>
             <span>© 2026</span>
           </div>

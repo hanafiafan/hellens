@@ -1,12 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import HeroSection from './HeroSection';
-import { ArrowUpRight } from 'lucide-react';
-import { LiquidGlass } from './LiquidGlass';
-import { PILLARS } from './ServicesSection';
+import VerticalCutReveal from './VerticalCutReveal';
 
 const FRAME_COUNT = 485; // native 60fps source (~8s), smooth
 const framePath = (i) => `/scroll-frames/frame_${String(i).padStart(3, '0')}.webp`;
-const TRACK_VH = 800;                 // 440vh scrub + ruang untuk kartu layanan
+const TRACK_VH = 490;
 const SCROLL_VH = TRACK_VH - 100;     // jarak scroll efektif (track - 1 layar sticky)
 const p = (vh) => vh / SCROLL_VH;     // posisi absolut (vh) -> progress 0..1
 const FRAME_LERP = 0.14;
@@ -14,12 +12,10 @@ const FRAME_LERP = 0.14;
 // Semua fase dipatok dalam vh absolut, bukan pecahan progress, supaya kecepatan
 // scrub tidak berubah kalau TRACK_VH digeser lagi.
 const SEQ_START = p(17);
-const SEQ_END = p(265);               // frame selesai; sisanya video loop + kartu
+const SEQ_END = p(265);
 const ENDV_IN0 = p(248), ENDV_IN1 = p(265);
-const TAG_IN0 = p(275), TAG_IN1 = p(302), TAG_OUT0 = p(320), TAG_OUT1 = p(345);
-const CARD_START = 340, CARD_VH = 100; // tiap kartu punya 100vh scroll sendiri
-const CARD_IN1 = 30, CARD_OUT0 = 72;   // offset fade-in selesai / fade-out mulai
-const SEAM_IN0 = p(CARD_START + PILLARS.length * CARD_VH), SEAM_IN1 = p(SCROLL_VH);
+const TAG_IN0 = p(262), TAG_IN1 = p(282);
+const SEAM_IN0 = p(375), SEAM_IN1 = p(SCROLL_VH);
 
 const smooth = (a, b, x) => Math.min(1, Math.max(0, (x - a) / (b - a)));
 
@@ -28,13 +24,14 @@ const smooth = (a, b, x) => Math.min(1, Math.max(0, (x - a) / (b - a)));
 // a fragment shader (mix), so the scrub is GPU-smooth with no decode flicker.
 // Only 2 textures live on the GPU at once; frames upload on demand.
 export default function HeroScrollStageGL({ active = true, lenisRef, ...heroProps }) {
+  const [introActive, setIntroActive] = useState(false);
   const trackRef = useRef(null);
   const canvasRef = useRef(null);
   const contentRef = useRef(null);
   const endVideoRef = useRef(null);
   const ctaRef = useRef(null);
   const seamRef = useRef(null);
-  const cardsRef = useRef([]);
+  const introActiveRef = useRef(false);
 
   // Intro video loops at rest; scrolling drives the frame animation (no scroll lock).
   useEffect(() => {
@@ -202,21 +199,16 @@ export default function HeroScrollStageGL({ active = true, lenisRef, ...heroProp
         // Seam softener: fade in the blur/color band as the bottom edge nears the next section.
         if (seam) seam.style.opacity = smooth(SEAM_IN0, SEAM_IN1, prog);
 
-        // Tagline di dinding kosong: muncul saat video settle, lalu pamit sebelum kartu masuk.
+        // Perkenalan di dinding kosong: muncul saat video settle dan bertahan
+        // sampai seluruh stage terdorong keluar oleh section berikutnya.
         if (cta) {
-          cta.style.opacity = smooth(TAG_IN0, TAG_IN1, prog) * (1 - smooth(TAG_OUT0, TAG_OUT1, prog));
+          cta.style.opacity = smooth(TAG_IN0, TAG_IN1, prog);
+          const shouldReveal = prog >= TAG_IN0;
+          if (shouldReveal !== introActiveRef.current) {
+            introActiveRef.current = shouldReveal;
+            setIntroActive(shouldReveal);
+          }
         }
-
-        // Kartu layanan: satu kartu per ~100vh scroll, hanya satu yang tampak.
-        cardsRef.current.forEach((el, i) => {
-          if (!el) return;
-          const base = CARD_START + i * CARD_VH;
-          const a = smooth(p(base), p(base + CARD_IN1), prog)
-                  * (1 - smooth(p(base + CARD_OUT0), p(base + CARD_VH), prog));
-          el.style.opacity = a;
-          el.style.transform = `translateY(${(1 - a) * 28}px)`;
-          el.style.visibility = a < 0.01 ? 'hidden' : 'visible';
-        });
       }
       raf = requestAnimationFrame(tick);
     };
@@ -234,9 +226,6 @@ export default function HeroScrollStageGL({ active = true, lenisRef, ...heroProp
 
   return (
     <section ref={trackRef} id="hero-scroll" className="relative" style={{ height: `${TRACK_VH}vh` }}>
-      {/* Anchor nav "Layanan": konten layanan sekarang hidup di dalam track hero ini,
-          jadi anchor-nya ditaruh tepat di kedalaman scroll tempat kartu pertama muncul. */}
-      <span id="services" aria-hidden="true" className="absolute left-0 h-px w-px" style={{ top: `${CARD_START + 38}vh` }} />
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#8fd0d8]">
         <canvas ref={canvasRef} className="absolute inset-0 block h-full w-full pointer-events-none" />
 
@@ -269,86 +258,26 @@ export default function HeroScrollStageGL({ active = true, lenisRef, ...heroProp
               WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, #000 90%)',
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#f4f9f7]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#F5F1E8]" />
         </div>
 
-        {/* Kartu layanan di dinding kosong — satu per satu mengikuti scroll.
-            Kartu yang belum gilirannya dapat visibility:hidden, jadi otomatis
-            lepas dari urutan tab dan tidak dibaca screen reader. */}
-        <div className="pointer-events-none absolute inset-0">
-          <div className="relative h-full w-full max-w-7xl mx-auto px-6 sm:px-12 lg:px-16">
-            {PILLARS.map(({ icon: Icon, name, desc, items, slug }, i) => (
-              <div
-                key={name}
-                ref={(el) => { cardsRef.current[i] = el; }}
-                className="absolute inset-y-0 right-6 sm:right-12 lg:right-16 left-6 sm:left-auto flex items-center justify-center sm:justify-end pb-[10vh] sm:pb-[14vh]"
-                style={{ opacity: 0, visibility: 'hidden', willChange: 'opacity, transform' }}
-              >
-                <LiquidGlass className="rounded-[28px] w-full sm:w-[26rem] lg:w-[30rem]">
-                  <div className="rounded-[28px] bg-white/25 p-6 sm:p-8">
-                    <div className="flex items-center justify-between">
-                      <Icon className="w-6 h-6 text-[#042718]" />
-                      <span className="font-mono text-[10px] tracking-[0.2em] text-[#042718]/55">
-                        {String(i + 1).padStart(2, '0')} / {String(PILLARS.length).padStart(2, '0')}
-                      </span>
-                    </div>
-                    <h3 className="mt-4 font-heavy uppercase text-base sm:text-lg leading-[1.05] tracking-[-0.02em] text-[#042718]">{name}</h3>
-                    <p className="mt-2 text-xs sm:text-sm text-[#042718]/80 leading-relaxed">{desc}</p>
-                    <ul className="mt-5 pt-4 border-t border-[#042718]/15 space-y-2">
-                      {items.map((item) => (
-                        <li key={item} className="text-[11px] sm:text-xs font-mono text-[#042718]/75 flex gap-2">
-                          <span className="text-emerald-700">—</span>
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <a
-                      href={`/karya/#${slug}`}
-                      className="pointer-events-auto mt-6 inline-flex items-center gap-2 rounded-full bg-[#042718] px-5 py-2.5 text-xs font-semibold text-white hover:bg-[#063a22] transition-colors"
-                    >
-                      <span>Lihat karyanya</span>
-                      <ArrowUpRight className="w-3.5 h-3.5" />
-                    </a>
-                  </div>
-                </LiquidGlass>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Pengantar kartu layanan — susunannya cerminan headline layar pertama
-            (eyebrow mono + rule, tumpukan baris pendek, satu kata hollow, spec line). */}
+        {/* Pengenalan studio setelah frame sequence menetap di ruang biru. */}
         <div
           ref={ctaRef}
-          className="pointer-events-none absolute inset-0 flex items-start justify-end"
+          className="studio-intro pointer-events-none absolute inset-0 flex items-center justify-end"
           style={{ opacity: 0 }}
-          aria-hidden="true"
         >
-          <div className="w-full max-w-7xl mx-auto px-8 sm:px-12 lg:px-16 flex justify-end pt-[12vh] sm:pt-[15vh] [text-shadow:_0_2px_24px_rgba(0,0,0,0.25)]">
-            <div className="text-right">
-              {/* eyebrow: rule + label chip (kebalikan layar pertama karena rata kanan) */}
-              <div className="flex items-center justify-end gap-3 mb-5 sm:mb-6">
-                <span className="font-mono text-[9px] sm:text-[10px] tracking-[0.22em] uppercase text-white/80">
-                  Est. 2021
-                </span>
-                <span className="h-px w-14 sm:w-20 bg-white/45" />
-                <span className="font-mono text-[9px] sm:text-[10px] font-semibold tracking-[0.22em] uppercase text-white border border-white/45 px-2 py-[5px]">
-                  Layanan
-                </span>
-              </div>
-
-              <p className="font-heavy uppercase text-white text-[clamp(1.75rem,4.6vw,4.5rem)] leading-[0.86] tracking-[-0.04em] whitespace-nowrap">
-                <span className="block">Satu studio.</span>
-                <span className="block text-transparent [-webkit-text-stroke:2px_rgba(255,255,255,0.95)]">Tiga layanan.</span>
+          <div className="studio-intro-layout">
+            <div className="studio-intro-copy">
+              <p className="studio-intro-kicker">STUDIO DIGITAL · YOGYAKARTA</p>
+              <h2 className="studio-intro-title">
+                <VerticalCutReveal active={introActive}>KAMI ADALAH</VerticalCutReveal>
+                <VerticalCutReveal active={introActive} reverse fromLast delay={0.18}>HELLENS.DEV</VerticalCutReveal>
+              </h2>
+              <p className="studio-intro-description">
+                <VerticalCutReveal active={introActive} splitBy="words" delay={0.38}>Kami membuat website dan sistem digital</VerticalCutReveal>
+                <VerticalCutReveal active={introActive} splitBy="words" delay={0.58}>yang mengikuti cara kerja bisnis Anda.</VerticalCutReveal>
               </p>
-
-              <div className="mt-6 sm:mt-8 flex items-center justify-end gap-3">
-                <p className="font-mono text-[9px] sm:text-[10px] font-medium tracking-[0.2em] uppercase text-white/90">
-                  Gulir — satu per satu
-                </p>
-                <span className="h-px w-8 sm:w-10 bg-white/60 shrink-0" />
-              </div>
             </div>
           </div>
         </div>
