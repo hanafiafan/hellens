@@ -108,7 +108,7 @@ export function LegacyHomePage() {
         return
       }
       const title = item.querySelector('.work__name')?.textContent?.trim().toLowerCase() || ''
-      const aliases: Record<string, string> = { okx: 'okx', pangeam: 'pangeam', metamap: 'metamap', globaltrack: 'globaltrack', keyword: 'keyword', payhoa: 'payhoa', lumus: 'lumus-ai' }
+      const aliases: Record<string, string> = { okx: 'conversion-web', conversion: 'conversion-web', pangeam: 'pangeam', metamap: 'metamap', globaltrack: 'globaltrack', keyword: 'keyword', payhoa: 'payhoa', lumus: 'lumus-ai' }
       const slug = Object.entries(aliases).find(([name]) => title.includes(name))?.[1]
       if (!slug) return
       event.preventDefault(); event.stopImmediatePropagation()
