@@ -64,9 +64,11 @@ export function MorePage() {
           <span className="more-page__description">{description}</span>
           <span className="more-page__arrow">↗</span>
         </>
+        const suffix = language === 'en' ? '?lang=en' : ''
+        const targetUrl = href.includes('#') ? `/${suffix}#${href.split('#')[1]}` : href
         return href.startsWith('http')
           ? <motion.a key={label} href={href} target="_blank" rel="noreferrer" initial={{ opacity: 0, y: 35 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .16 + index * .08 }}>{inner}</motion.a>
-          : <motion.div key={label} initial={{ opacity: 0, y: 35 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .16 + index * .08 }}><Link to={href}>{inner}</Link></motion.div>
+          : <motion.div key={label} initial={{ opacity: 0, y: 35 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .16 + index * .08 }}><a href={targetUrl} onClick={(e) => { e.preventDefault(); window.location.assign(targetUrl) }}>{inner}</a></motion.div>
       })}
     </nav>
   </motion.main>

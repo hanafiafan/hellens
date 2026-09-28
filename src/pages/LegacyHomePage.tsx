@@ -131,6 +131,17 @@ export function LegacyHomePage() {
     }
     document.addEventListener('click', openProject, true)
     document.addEventListener('click', openMore)
+    const scrollToHash = () => {
+      const hash = window.location.hash
+      if (!hash) return
+      const target = document.querySelector(hash)
+      if (!target) return
+      if ((window as any).lenis && typeof (window as any).lenis.scrollTo === 'function') {
+        (window as any).lenis.scrollTo(target, { immediate: false, duration: 1.2 })
+      } else {
+        target.scrollIntoView({ behavior: 'smooth' })
+      }
+    }
     const load = async () => {
       for (const source of ['/experience/main-DOEoZWF8.js', '/experience/page-transition.js']) {
         if (cancelled) return
@@ -139,6 +150,11 @@ export function LegacyHomePage() {
           script.onload = () => resolve(); script.onerror = () => reject(new Error(`Failed to load ${source}`))
           document.body.appendChild(script); loadedScripts.push(script)
         })
+      }
+      if (window.location.hash) {
+        setTimeout(scrollToHash, 250)
+        setTimeout(scrollToHash, 650)
+        setTimeout(scrollToHash, 1200)
       }
     }
     void load()
