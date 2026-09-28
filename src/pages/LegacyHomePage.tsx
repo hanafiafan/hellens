@@ -104,7 +104,7 @@ export function LegacyHomePage() {
       const item = target?.closest('.work__item')
       if (!item) return
       const link = target?.closest('a')
-      if (link && (link.classList.contains('work__link') || link.target === '_blank' || (link.href && link.href.includes('wa.me')))) {
+      if (link && (link.classList.contains('work__link') || (link.href && link.href.includes('wa.me')))) {
         return
       }
       const title = item.querySelector('.work__name')?.textContent?.trim().toLowerCase() || ''
