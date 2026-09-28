@@ -1,0 +1,2 @@
+import {BubbleText} from './BubbleText';import {useLanguage} from '../context/LanguageContext'
+export function IntroSection(){const {language}=useLanguage();const text=language==='id'?'Dipercaya 20+ bisnis 🤝 untuk membangun website yang menghasilkan 🌐, dashboard yang memperjelas 📊, dan automasi yang bertumbuh ⚡':'Trusted by 20+ businesses 🤝 to build websites that convert 🌐, dashboards that clarify 📊, and automation that scales ⚡';return <section className="intro-section"><h2><BubbleText text={text}/></h2></section>}
