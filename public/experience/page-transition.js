@@ -126,6 +126,9 @@
     location.href = href;
   };
 
+  window.HellensNavigate = navigate;
+  window.HellensAnimate = animate;
+
   document.addEventListener("click", async event => {
     if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     const link = event.target.closest("a[href]"); if (!link || link.target === "_blank" || link.hasAttribute("download")) return;
@@ -138,7 +141,7 @@
       await animate({ mode: 0, origin: point, reverse: true, duration: 720 }); return;
     }
     event.preventDefault();
-    const projectTransition = link.closest(".work__item") || /project\.html/.test(url.pathname) || /project\.html/.test(location.pathname);
+    const projectTransition = link.closest(".work__item") || /project/.test(url.pathname) || /projects/.test(url.pathname);
     navigate(url.href, { mode: projectTransition ? 1 : 0, origin: point, duration: projectTransition ? 1050 : 900 });
   });
 
@@ -150,3 +153,4 @@
     }
   } catch (_) { sessionStorage.removeItem("hellens-transition"); }
 })();
+

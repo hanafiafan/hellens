@@ -103,13 +103,24 @@ export function LegacyHomePage() {
       const target = event.target as Element | null
       const item = target?.closest('.work__item')
       if (!item) return
+      const link = target?.closest('a')
+      if (link && (link.classList.contains('work__link') || link.target === '_blank' || (link.href && link.href.includes('wa.me')))) {
+        return
+      }
       const title = item.querySelector('.work__name')?.textContent?.trim().toLowerCase() || ''
       const aliases: Record<string, string> = { okx: 'okx', pangeam: 'pangeam', metamap: 'metamap', globaltrack: 'globaltrack', keyword: 'keyword', payhoa: 'payhoa', lumus: 'lumus-ai' }
       const slug = Object.entries(aliases).find(([name]) => title.includes(name))?.[1]
       if (!slug) return
       event.preventDefault(); event.stopImmediatePropagation()
       const suffix = language === 'en' ? '?lang=en' : ''
-      window.location.assign(`/projects/${slug}${suffix}`)
+      const href = `/projects/${slug}${suffix}`
+      const origin = { x: event.clientX / window.innerWidth, y: event.clientY / window.innerHeight }
+      if (typeof window.HellensNavigate === 'function') {
+        window.HellensNavigate(href, { mode: 1, origin, duration: 1050 })
+      } else {
+        sessionStorage.setItem('hellens-transition', JSON.stringify({ mode: 1, origin, duration: 1050 }))
+        window.location.assign(href)
+      }
     }
     const openMore = (event: Event) => {
       const target = event.target as Element | null

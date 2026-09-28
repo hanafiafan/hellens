@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { motion } from 'motion/react'
 import '../styles/globals.css'
 import { Navigate, Link, useParams } from 'react-router-dom'
@@ -55,6 +56,21 @@ export function ProjectPage() {
   const { slug } = useParams()
   const { language } = useLanguage()
   const project = projects.find((item) => item.slug === slug)
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+    let script: HTMLScriptElement | null = null
+    if (!document.querySelector('script[src="/experience/page-transition.js"]')) {
+      script = document.createElement('script')
+      script.type = 'module'
+      script.src = '/experience/page-transition.js'
+      document.body.appendChild(script)
+    }
+    return () => {
+      if (script) script.remove()
+    }
+  }, [slug])
+
   useSeo(project ? `${project.title} — Hellens Developer` : 'Hellens Developer', project ? t(project.summary, language) : 'Hellens Developer', project ? `https://hellens.dev/projects/${project.slug}${language === 'en' ? '?lang=en' : ''}` : 'https://hellens.dev/')
   if (!project) return <Navigate to="/" replace />
 
@@ -69,6 +85,20 @@ export function ProjectPage() {
   ]
   const next = projects[(projects.indexOf(project) + 1) % projects.length]
   const references = visualReferences[project.slug] ?? []
+
+  const handleNextClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault()
+    const origin = { x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight }
+    const suffix = language === 'en' ? '?lang=en' : ''
+    const href = `/projects/${next.slug}${suffix}`
+    if (typeof window.HellensNavigate === 'function') {
+      window.HellensNavigate(href, { mode: 1, origin, duration: 1050 })
+    } else {
+      sessionStorage.setItem('hellens-transition', JSON.stringify({ mode: 1, origin, duration: 1050 }))
+      window.location.assign(href)
+    }
+  }
+
   return <motion.main initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
     <Navbar />
     <section className="case-hero"><div><h1>{project.title}</h1><p>{t(project.lead, language)}</p><p>{t(project.summary, language)}</p></div><dl><dt>{language === 'id' ? 'PERAN KAMI' : 'OUR ROLE'}</dt><dd>Strategy, Design & Development</dd><dt>{language === 'id' ? 'LAYANAN' : 'SERVICES'}</dt><dd>{project.services}</dd><dt>TIMELINE</dt><dd>2026</dd></dl></section>
@@ -79,7 +109,8 @@ export function ProjectPage() {
       <div className="case-references__grid">{references.map((reference) => <figure key={reference.image}><img src={reference.image} alt={reference.label} loading="lazy" /><figcaption><span>{reference.label}</span><a href={reference.source} target="_blank" rel="noreferrer">{language === 'id' ? 'Lihat sumber' : 'View source'} ↗</a></figcaption></figure>)}</div>
     </section>
     {phases.map((phase, index) => <section className="case-phase" key={phase[0]}><span>0{index + 2}</span><h2>{phase[0]}</h2><div><article><h3>{language === 'id' ? 'Masalah' : 'Problem'}</h3><p>{t(phase[1], language)}</p></article><article><h3>{language === 'id' ? 'Yang kami lakukan' : 'What we did'}</h3><p>{phase[2]}</p></article><article><h3>{language === 'id' ? 'Pekerjaan' : 'Work'}</h3><p>{phase[3]}</p></article><article><h3>{language === 'id' ? 'Hasil' : 'Outcome'}</h3><p>{t(project.solution, language)}</p></article></div><div className="case-gallery">{Array.from({ length: Math.min(3, project.count - 1) }, (_, imageIndex) => <img key={imageIndex} src={`/work/${project.slug}-${String(imageIndex + 2).padStart(2, '0')}-1600.avif`} alt="" loading="lazy" />)}</div></section>)}
-    <Link className="next-case" to={`/projects/${next.slug}`}><small>{language === 'id' ? 'Studi kasus berikutnya' : 'Next case study'}</small><strong>{next.title}</strong><span>→</span></Link>
+    <Link className="next-case" to={`/projects/${next.slug}`} onClick={handleNextClick}><small>{language === 'id' ? 'Studi kasus berikutnya' : 'Next case study'}</small><strong>{next.title}</strong><span>→</span></Link>
     <Footer />
   </motion.main>
 }
+
