@@ -1,0 +1,2 @@
+import {useLanguage} from '../context/LanguageContext'
+export function Footer(){const {language}=useLanguage();return <footer className="footer"><div className="footer-glow"/><div><h2>{language==='id'?'MARI BANGUN':'LET’S BUILD'}</h2><a href="https://wa.me/6285726465083">WhatsApp ↗</a></div><div><h2>{language==='id'?'HAL BESAR BERIKUTNYA':'THE NEXT BIG THING'}</h2><a href="mailto:hellensdev@gmail.com">hellensdev@gmail.com</a></div><small>© 2026 HELLENS DEVELOPER</small></footer>}
