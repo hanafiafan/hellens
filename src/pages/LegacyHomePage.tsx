@@ -134,14 +134,18 @@ export function LegacyHomePage() {
     const scrollToHash = () => {
       const hash = window.location.hash
       if (!hash) return
-      const target = document.querySelector(hash)
+      const id = hash.replace(/^#/, '')
+      const target = document.getElementById(id) || document.querySelector(hash)
       if (!target) return
-      if ((window as any).lenis && typeof (window as any).lenis.scrollTo === 'function') {
+      if (typeof (window as any).HellensScrollToElement === 'function') {
+        (window as any).HellensScrollToElement(target)
+      } else if ((window as any).lenis && typeof (window as any).lenis.scrollTo === 'function') {
         (window as any).lenis.scrollTo(target, { immediate: false, duration: 1.2 })
       } else {
         target.scrollIntoView({ behavior: 'smooth' })
       }
     }
+    window.addEventListener('hashchange', scrollToHash)
     const load = async () => {
       for (const source of ['/experience/main-DOEoZWF8.js', '/experience/page-transition.js']) {
         if (cancelled) return
@@ -158,7 +162,7 @@ export function LegacyHomePage() {
       }
     }
     void load()
-    return () => { cancelled = true; document.removeEventListener('click', openProject, true); document.removeEventListener('click', openMore); loadedScripts.forEach(script => script.remove()); stylesheet.remove(); document.body.classList.remove('legacy-experience', 'is-loading'); delete document.body.dataset.story }
+    return () => { cancelled = true; window.removeEventListener('hashchange', scrollToHash); document.removeEventListener('click', openProject, true); document.removeEventListener('click', openMore); loadedScripts.forEach(script => script.remove()); stylesheet.remove(); document.body.classList.remove('legacy-experience', 'is-loading'); delete document.body.dataset.story }
   }, [markup])
   const switchLanguage = (next: 'id' | 'en') => {
     if (next === language) return
