@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 import referenceDocument from '../templates-reference.html?raw'
 import { useLanguage } from '../context/LanguageContext'
 import '../styles/legacy-overrides.css'
@@ -92,7 +92,6 @@ function createMarkup(language: 'id' | 'en') {
 
 export function LegacyHomePage() {
   const { language } = useLanguage()
-  const [moreOpen, setMoreOpen] = useState(false)
   const markup = useMemo(() => createMarkup(language), [language])
   useEffect(() => {
     document.body.classList.add('legacy-experience', 'is-loading')
@@ -116,7 +115,8 @@ export function LegacyHomePage() {
       const target = event.target as Element | null
       if (!target?.closest('.hero__more')) return
       event.preventDefault(); event.stopPropagation()
-      setMoreOpen(true)
+      const suffix = language === 'en' ? '?lang=en' : ''
+      window.location.assign(`/more${suffix}`)
     }
     document.addEventListener('click', openProject, true)
     document.addEventListener('click', openMore)
@@ -146,14 +146,6 @@ export function LegacyHomePage() {
     <div className="hellens-controls" aria-label="Site controls">
       <button type="button" onClick={() => switchLanguage('id')} aria-pressed={language === 'id'}>ID</button>
       <button type="button" onClick={() => switchLanguage('en')} aria-pressed={language === 'en'}>EN</button>
-    </div>
-    <div className="hellens-more" data-open={moreOpen || undefined} aria-hidden={!moreOpen} onClick={() => setMoreOpen(false)}>
-      <button className="hellens-more__close" type="button" onClick={() => setMoreOpen(false)} aria-label="Close menu">×</button>
-      <nav onClick={event => event.stopPropagation()}>
-        <a href="#intro">{language === 'id' ? 'Tentang Hellens' : 'About Hellens'}</a>
-        <a href="#work">{language === 'id' ? 'Semua Karya' : 'All Works'}</a>
-        <a href="mailto:hellensdev@gmail.com">{language === 'id' ? 'Mulai Proyek' : 'Start a Project'}</a>
-      </nav>
     </div>
   </>
 }

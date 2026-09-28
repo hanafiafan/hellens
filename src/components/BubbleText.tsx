@@ -1,2 +1,1 @@
-import {useState} from 'react'
-export function BubbleText({text}:{text:string}){const [active,setActive]=useState<number|null>(null);return <span className="bubble-text" onMouseLeave={()=>setActive(null)}>{[...text].map((char,index)=>{const distance=active===null?9:Math.abs(active-index);return <span key={index} onMouseEnter={()=>setActive(index)} data-distance={Math.min(distance,3)}>{char===' '?'\u00a0':char}</span>})}</span>}
+export { BubbleText } from './ui/bubble-text'
