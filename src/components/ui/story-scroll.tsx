@@ -67,9 +67,9 @@ export default function FlowArt({ children, className = '', 'aria-label': ariaLa
           ScrollTrigger.create({
             trigger: section,
             start: 'top 112px',
-            end: 'bottom top',
+            end: '+=70%',
             pin: inner,
-            pinSpacing: false,
+            pinSpacing: true,
             anticipatePin: 1,
           })
         }

@@ -6,6 +6,17 @@
 }
 
 .navbar { padding: 20px var(--page-gutter); }
+.subpage .navbar::before,
+.case-page .navbar::before,
+.more-page .navbar::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  height: 132px;
+  pointer-events: none;
+  background: linear-gradient(180deg, #050505 0%, #050505e8 58%, transparent 100%);
+}
 .brand { width: 64px; height: 64px; display: grid; place-items: center; }
 .nav-pill a[aria-current="page"] { background: #fff; color: #0b0b0b; }
 
