@@ -45,7 +45,81 @@
 .work-project-card,
 .about-value-card { box-shadow: inset 0 1px 0 #ffffff08; }
 .service-card-detailed { min-height: 530px; }
-.services-grid-container { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.services-grid-container.services-flow {
+  display: block;
+  width: min(var(--page-max), calc(100% - var(--page-gutter) * 2));
+  max-width: none;
+  margin: 0 auto clamp(120px, 16vh, 200px);
+}
+.flow-section { position: relative; min-height: min(820px, 88svh); }
+.flow-section__inner { transform-origin: 0 100%; will-change: transform; }
+.services-flow .service-card-detailed {
+  min-height: min(720px, calc(100svh - 142px));
+  margin: 0;
+  padding: clamp(28px, 4vw, 58px);
+  overflow: hidden;
+  border-color: color-mix(in srgb, var(--service-color) 34%, #ffffff20);
+  background:
+    radial-gradient(circle at 82% 14%, color-mix(in srgb, var(--service-color) 24%, transparent), transparent 30%),
+    linear-gradient(145deg, color-mix(in srgb, var(--service-color) 9%, #101012), #09090b 64%);
+  box-shadow: inset 0 1px 0 #ffffff1a, 0 32px 90px #0009;
+}
+.services-flow .service-card-detailed:hover { transform: none; }
+.service-flow__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 22px;
+  border-bottom: 1px solid #ffffff2b;
+  color: color-mix(in srgb, var(--service-color) 72%, white);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+}
+.service-flow__meta span:last-child { font-size: clamp(2rem, 4vw, 3.5rem); letter-spacing: 0; }
+.service-flow__content {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(260px, .75fr);
+  gap: clamp(32px, 7vw, 100px);
+  align-items: end;
+  flex: 1;
+  padding: clamp(50px, 8vh, 96px) 0;
+}
+.services-flow .service-card-title {
+  max-width: 8ch;
+  margin: 0;
+  font-size: clamp(5rem, 12vw, 11rem);
+  line-height: .77;
+  color: #fff;
+}
+.services-flow .service-tagline {
+  max-width: 620px;
+  margin: clamp(24px, 4vh, 42px) 0 0;
+  font-size: clamp(1.3rem, 2vw, 2rem);
+  line-height: 1.15;
+}
+.services-flow .service-overview {
+  max-width: 42ch;
+  margin: 0 0 4px;
+  color: #d4d4d0;
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  line-height: 1.55;
+}
+.services-flow .service-feature-list {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  padding-top: 0;
+  border-top: 1px solid #ffffff2b;
+}
+.services-flow .service-feature-list li {
+  display: grid;
+  gap: 14px;
+  padding: 24px 22px 0 0;
+  color: #e4e4df;
+  line-height: 1.4;
+}
+.services-flow .service-feature-list li + li { padding-left: 22px; border-left: 1px solid #ffffff20; }
+.services-flow .feature-check { color: color-mix(in srgb, var(--service-color) 75%, white); font-size: .78rem; letter-spacing: .12em; }
 .work-projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .work-project-cover { aspect-ratio: 16 / 10; }
 .about-profile-bio p { margin: 0; }
@@ -90,6 +164,13 @@
 
 @media (max-width: 800px) {
   .services-grid-container { grid-template-columns: 1fr; }
+  .flow-section { min-height: auto; margin-bottom: 24px; }
+  .services-flow .service-card-detailed { min-height: 660px; }
+  .service-flow__content { grid-template-columns: 1fr; align-content: center; gap: 30px; }
+  .services-flow .service-card-title { font-size: clamp(4rem, 18vw, 7rem); }
+  .services-flow .service-feature-list { grid-template-columns: 1fr 1fr; }
+  .services-flow .service-feature-list li + li { border-left: 0; }
+  .services-flow .service-feature-list li:nth-child(even) { padding-left: 18px; border-left: 1px solid #ffffff20; }
 }
 
 @media (max-width: 720px) {
@@ -128,4 +209,10 @@
   .next-case { width: calc(100% - 40px); }
   .more-page { padding-inline: 20px; }
   .more-page__hero { padding-top: 132px; }
+  .services-grid-container.services-flow { width: calc(100% - 28px); }
+  .services-flow .service-card-detailed { min-height: 700px; padding: 26px 22px; border-radius: 18px; }
+  .service-flow__content { padding: 42px 0; }
+  .services-flow .service-card-title { font-size: clamp(3.6rem, 17vw, 5rem); }
+  .services-flow .service-tagline { font-size: 1.2rem; }
+  .services-flow .service-feature-list li { padding-top: 18px; padding-right: 12px; font-size: .86rem; }
 }

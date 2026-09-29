@@ -6,6 +6,7 @@ import { Footer } from '../components/Footer'
 import { useLanguage } from '../context/LanguageContext'
 import { useSeo } from '../hooks/useSeo'
 import { services, t } from '../data/content'
+import FlowArt, { FlowSection } from '../components/ui/story-scroll'
 import '../styles/globals.css'
 import '../styles/subpages.css'
 
@@ -109,38 +110,31 @@ export function ServicesPage() {
         </motion.p>
       </header>
 
-      <section className="services-grid-container">
+      <FlowArt className="services-grid-container services-flow" aria-label={language === 'id' ? 'Rangkaian layanan Hellens' : 'Hellens services story'}>
         {servicesDetail.map((service, index) => {
           const overview = services.find((s) => s.title === service.title)
           return (
-            <motion.article
+            <FlowSection
               key={service.slug}
               className="service-card-detailed"
-              initial={{ opacity: 0, y: 35 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 + index * 0.1 }}
+              aria-label={`${index + 1}. ${service.title}`}
               style={{ '--service-color': service.color } as React.CSSProperties}
             >
-              <div className="service-card-header">
-                <span className="service-icon">{service.icon}</span>
-                <span className="service-number">0{index + 1}</span>
+              <div className="service-flow__meta"><span>0{index + 1} — {language === 'id' ? 'LAYANAN' : 'SERVICE'}</span><span>{service.icon}</span></div>
+              <div className="service-flow__content">
+                <div className="service-flow__headline">
+                  <h2 className="service-card-title">{service.title}</h2>
+                  <p className="service-tagline">{t(service.tagline, language)}</p>
+                </div>
+                <p className="service-overview">{overview ? t(overview.copy, language) : ''}</p>
               </div>
-              <h2 className="service-card-title">{service.title}</h2>
-              <p className="service-tagline">{t(service.tagline, language)}</p>
-              <p className="service-overview">{overview ? t(overview.copy, language) : ''}</p>
-
               <ul className="service-feature-list">
-                {service.features.map((feature, fIdx) => (
-                  <li key={fIdx}>
-                    <span className="feature-check">✓</span>
-                    <span>{t(feature, language)}</span>
-                  </li>
-                ))}
+                {service.features.map((feature, fIdx) => <li key={fIdx}><span className="feature-check">0{fIdx + 1}</span><span>{t(feature, language)}</span></li>)}
               </ul>
-            </motion.article>
+            </FlowSection>
           )
         })}
-      </section>
+      </FlowArt>
 
       <section className="services-cta">
         <h2>{language === 'id' ? 'Siap Mengembangkan Bisnis Anda?' : 'Ready to Grow Your Business?'}</h2>
