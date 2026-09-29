@@ -94,6 +94,11 @@ export function LegacyHomePage() {
   const { language } = useLanguage()
   const markup = useMemo(() => createMarkup(language), [language])
   useEffect(() => {
+    if ((window as any).__HELLENS_MAIN_RUNNING__) {
+      window.location.reload()
+      return
+    }
+    (window as any).__HELLENS_MAIN_RUNNING__ = true
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual'
     }
@@ -167,7 +172,7 @@ export function LegacyHomePage() {
       }
       setTimeout(() => {
         document.body.classList.remove('is-loading')
-      }, 300)
+      }, 1800)
       if (window.location.hash) {
         setTimeout(scrollToHash, 250)
         setTimeout(scrollToHash, 650)

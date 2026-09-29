@@ -3,4 +3,6 @@
 .legacy-experience .hero,.legacy-experience .hero__nav,.hellens-controls{transform:translateZ(0);backface-visibility:hidden}.legacy-experience .craft__scene{isolation:isolate;contain:layout paint;overflow:hidden;background:#080611}.legacy-experience .craft__scene canvas{backface-visibility:hidden;transform:translateZ(0)}
 .legacy-experience .hero__nav a[data-active]{background:transparent;color:#fff}.legacy-experience .hero__nav a{transition:color .28s ease}.legacy-experience .hero__nav .hero__more{position:relative;z-index:2;padding:10px 17px;border:0;border-radius:999px;background:transparent;color:#fff;cursor:pointer}.legacy-experience .hero__nav .hero__more:hover{background:#ffffff12}.legacy-experience .section--lede{background:#000!important}.legacy-experience .section--lede h2,.legacy-experience .section--lede h2 *{color:#fff!important}
 .legacy-experience .hero__nav-pill{display:block!important;background:rgba(255,255,255,.16)!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
-.legacy-experience:not(.is-loading) .stage-gl{opacity:1!important}
+.legacy-experience:not(.is-loading):not(.no-webgl) .stage-gl{opacity:1!important}
+.legacy-experience.no-webgl .stage-gl{display:none!important;opacity:0!important}
+.legacy-experience .dome-grid:not([data-status="loading"]){opacity:1!important}
