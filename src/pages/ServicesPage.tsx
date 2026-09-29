@@ -110,7 +110,7 @@ export function ServicesPage() {
         </motion.p>
       </header>
 
-      <FlowArt className="services-grid-container services-flow" aria-label={language === 'id' ? 'Rangkaian layanan Hellens' : 'Hellens services story'}>
+      <FlowArt className="services-grid-container services-flow services-flow--full" aria-label={language === 'id' ? 'Rangkaian layanan Hellens' : 'Hellens services story'}>
         {servicesDetail.map((service, index) => {
           const overview = services.find((s) => s.title === service.title)
           return (
@@ -134,15 +134,17 @@ export function ServicesPage() {
             </FlowSection>
           )
         })}
+        <FlowSection className="service-flow-ending" aria-label={language === 'id' ? 'Mulai proyek bersama Hellens' : 'Start a project with Hellens'}>
+          <div className="service-ending__eyebrow">05 — {language === 'id' ? 'MULAI PROYEK' : 'START A PROJECT'}</div>
+          <div className="service-ending__copy">
+            <h2>{language === 'id' ? <>SIAP MEMBANGUN<br />HAL BESAR?</> : <>READY TO BUILD<br />SOMETHING BIG?</>}</h2>
+            <p>{language === 'id' ? 'Ceritakan kebutuhan bisnis Anda. Kami akan membantu menyusun arah, sistem, dan pengalaman digital yang tepat.' : 'Tell us what your business needs. We will help shape the right direction, system, and digital experience.'}</p>
+          </div>
+          <a href="https://wa.me/6285155278034" target="_blank" rel="noreferrer" className="service-ending__button">
+            {language === 'id' ? 'Mulai Diskusi di WhatsApp' : 'Start a WhatsApp Conversation'} <span>↗</span>
+          </a>
+        </FlowSection>
       </FlowArt>
-
-      <section className="services-cta">
-        <h2>{language === 'id' ? 'Siap Mengembangkan Bisnis Anda?' : 'Ready to Grow Your Business?'}</h2>
-        <p>{language === 'id' ? 'Konsultasikan kebutuhan produk, automasi, atau sistem digital Anda bersama kami.' : 'Discuss your product, automation, or digital system requirements with us.'}</p>
-        <a href="https://wa.me/6285155278034" target="_blank" rel="noreferrer" className="cta-button">
-          {language === 'id' ? 'Mulai Diskusi di WhatsApp ↗' : 'Start Discussion on WhatsApp ↗'}
-        </a>
-      </section>
 
       <Footer />
     </motion.main>

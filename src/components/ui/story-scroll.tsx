@@ -47,17 +47,15 @@ export default function FlowArt({ children, className = '', 'aria-label': ariaLa
         if (index > 0) {
           gsap.fromTo(
             inner,
-            { rotation: 8, y: 84, scale: 0.965, transformOrigin: '0% 100%' },
+            { rotation: 30, transformOrigin: '0% 100%' },
             {
               rotation: 0,
-              y: 0,
-              scale: 1,
               ease: 'none',
               scrollTrigger: {
                 trigger: section,
-                start: 'top 92%',
-                end: 'top 24%',
-                scrub: 0.65,
+                start: 'top bottom',
+                end: 'top 25%',
+                scrub: true,
               },
             },
           )
@@ -66,11 +64,10 @@ export default function FlowArt({ children, className = '', 'aria-label': ariaLa
         if (index < sections.length - 1) {
           ScrollTrigger.create({
             trigger: section,
-            start: 'top 112px',
-            end: '+=70%',
+            start: 'bottom bottom',
+            end: 'bottom top',
             pin: inner,
-            pinSpacing: true,
-            anticipatePin: 1,
+            pinSpacing: false,
           })
         }
       })
