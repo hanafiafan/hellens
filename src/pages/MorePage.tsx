@@ -13,9 +13,9 @@ const content = {
     title: 'LEBIH BANYAK',
     intro: 'Pilih bagian yang ingin Anda jelajahi.',
     links: [
-      ['LAYANAN', 'TEMUKAN', 'Website, automasi, dan sistem digital.', '/#approach'],
-      ['KARYA', 'JELAJAHI', 'Proyek terpilih dan studi kasus.', '/#work'],
-      ['TENTANG', 'KENALI', 'Kenali Hanafi Afan dan Hellens.', '/#about'],
+      ['LAYANAN', 'TEMUKAN', 'Website, automasi, dan sistem digital.', '/services'],
+      ['KARYA', 'JELAJAHI', 'Proyek terpilih dan studi kasus.', '/work'],
+      ['TENTANG', 'KENALI', 'Kenali Hanafi Afan dan Hellens.', '/about'],
       ['MULAI PROYEK', 'MULAI', 'Ceritakan kebutuhan bisnis Anda.', 'https://wa.me/6285155278034'],
     ],
   },
@@ -24,9 +24,9 @@ const content = {
     title: 'DISCOVER MORE',
     intro: 'Choose where you would like to go next.',
     links: [
-      ['SERVICES', 'DISCOVER', 'Websites, automation, and digital systems.', '/#approach'],
-      ['WORK', 'EXPLORE', 'Selected projects and case studies.', '/#work'],
-      ['ABOUT', 'HELLO', 'Meet Hanafi Afan and Hellens.', '/#about'],
+      ['SERVICES', 'DISCOVER', 'Websites, automation, and digital systems.', '/services'],
+      ['WORK', 'EXPLORE', 'Selected projects and case studies.', '/work'],
+      ['ABOUT', 'HELLO', 'Meet Hanafi Afan and Hellens.', '/about'],
       ['START A PROJECT', 'START', 'Tell us what your business needs.', 'https://wa.me/6285155278034'],
     ],
   },
@@ -49,6 +49,8 @@ export function MorePage() {
     return () => cancelAnimationFrame(frame)
   }, [])
 
+  const suffix = language === 'en' ? '?lang=en' : ''
+
   return <motion.main className="more-page" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
     <Navbar />
     <header className="more-page__hero">
@@ -64,11 +66,14 @@ export function MorePage() {
           <span className="more-page__description">{description}</span>
           <span className="more-page__arrow">↗</span>
         </>
-        const suffix = language === 'en' ? '?lang=en' : ''
-        const targetUrl = href.includes('#') ? `/${suffix}#${href.split('#')[1]}` : href
-        return href.startsWith('http')
-          ? <motion.a key={label} href={href} target="_blank" rel="noreferrer" initial={{ opacity: 0, y: 35 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .16 + index * .08 }}>{inner}</motion.a>
-          : <motion.div key={label} initial={{ opacity: 0, y: 35 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .16 + index * .08 }}><a href={targetUrl} onClick={(e) => { e.preventDefault(); window.location.assign(targetUrl) }}>{inner}</a></motion.div>
+        const isExternal = href.startsWith('http')
+        const targetUrl = isExternal ? href : `${href}${suffix}`
+
+        return isExternal
+          ? <motion.a key={label} href={targetUrl} target="_blank" rel="noreferrer" initial={{ opacity: 0, y: 35 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .16 + index * .08 }}>{inner}</motion.a>
+          : <motion.div key={label} initial={{ opacity: 0, y: 35 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .16 + index * .08 }}>
+              <Link to={targetUrl}>{inner}</Link>
+            </motion.div>
       })}
     </nav>
   </motion.main>
