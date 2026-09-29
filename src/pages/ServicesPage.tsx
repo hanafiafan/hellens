@@ -7,6 +7,7 @@ import { useLanguage } from '../context/LanguageContext'
 import { useSeo } from '../hooks/useSeo'
 import { services, t } from '../data/content'
 import FlowArt, { FlowSection } from '../components/ui/story-scroll'
+import { ServiceTimeline } from '../components/ui/service-timeline'
 import '../styles/globals.css'
 import '../styles/subpages.css'
 
@@ -21,10 +22,14 @@ const servicesDetail = [
       en: 'Fast, Focused & High-Impact Websites',
     },
     features: [
-      { id: 'Desain kustom sesuai identitas brand', en: 'Custom design tailored to brand identity' },
-      { id: 'Optimasi performa & kecepatan muat tinggi', en: 'Performance optimization & sub-second loading' },
-      { id: 'Hierarki informasi berorientasi konversi', en: 'Conversion-focused information architecture' },
-      { id: 'Responsif sempurna di layar seluler & desktop', en: 'Seamless responsive layout across mobile & desktop' },
+      { id: 'Riset tujuan bisnis, audiens, dan kompetitor', en: 'Business, audience, and competitor discovery' },
+      { id: 'Strategi konten dan arsitektur informasi', en: 'Content strategy and information architecture' },
+      { id: 'Wireframe untuk alur pengguna yang jelas', en: 'Wireframes for a clear user journey' },
+      { id: 'Arah visual yang khas dan konsisten', en: 'Distinctive and consistent visual direction' },
+      { id: 'Prototipe interaktif sebelum development', en: 'Interactive prototype before development' },
+      { id: 'Development responsif dengan teknologi modern', en: 'Responsive build with modern technology' },
+      { id: 'QA, aksesibilitas, SEO, dan optimasi performa', en: 'QA, accessibility, SEO, and performance tuning' },
+      { id: 'Peluncuran, analitik, dan iterasi berkelanjutan', en: 'Launch, analytics, and continuous iteration' },
     ],
   },
   {
@@ -37,10 +42,14 @@ const servicesDetail = [
       en: 'Workflow & Business Data Automation',
     },
     features: [
-      { id: 'Integrasi sistem & API pihak ketiga', en: 'System & 3rd-party API integrations' },
-      { id: 'Workflow WhatsApp, Email & Notifikasi otomatis', en: 'Automated WhatsApp, Email & Notification workflows' },
-      { id: 'Pemrosesan data otomatis tanpa input manual', en: 'Automated data processing eliminating manual input' },
-      { id: 'Sinkronisasi real-time antar sistem operasional', en: 'Real-time synchronization across operational tools' },
+      { id: 'Audit alur kerja dan tugas repetitif', en: 'Workflow and repetitive-task audit' },
+      { id: 'Pemetaan data, sumber, dan titik integrasi', en: 'Data, source, and integration mapping' },
+      { id: 'Perancangan trigger dan aturan otomatisasi', en: 'Automation trigger and rule design' },
+      { id: 'Integrasi API dan sistem pihak ketiga', en: 'API and third-party system integration' },
+      { id: 'Validasi data dan logika penanganan error', en: 'Data validation and error-handling logic' },
+      { id: 'Otomasi WhatsApp, email, dan notifikasi', en: 'WhatsApp, email, and notification automation' },
+      { id: 'Pengujian skenario nyata dari ujung ke ujung', en: 'Real-world end-to-end scenario testing' },
+      { id: 'Monitoring, pelaporan, dan penyempurnaan alur', en: 'Monitoring, reporting, and workflow refinement' },
     ],
   },
   {
@@ -53,10 +62,14 @@ const servicesDetail = [
       en: 'Integrated Systems & Operational Dashboards',
     },
     features: [
-      { id: 'Dashboard data & analitik real-time', en: 'Real-time data & analytics dashboards' },
-      { id: 'Sistem manajemen konten & operasional (CMS/ERP)', en: 'Content & operational management systems (CMS/ERP)' },
-      { id: 'Arsitektur modular yang stabil dan scalable', en: 'Stable, modular & highly scalable architecture' },
-      { id: 'Manajemen hak akses & keamanan data terjamin', en: 'Role-based access control & secure data storage' },
+      { id: 'Analisis kebutuhan dan proses operasional', en: 'Operational process and requirement analysis' },
+      { id: 'Arsitektur modular yang siap berkembang', en: 'Modular, growth-ready system architecture' },
+      { id: 'Perancangan database dan relasi data', en: 'Database and data-relationship design' },
+      { id: 'Hak akses berbasis peran dan keamanan', en: 'Role-based access and security controls' },
+      { id: 'Dashboard analitik dan pelaporan real-time', en: 'Real-time analytics and reporting dashboards' },
+      { id: 'Integrasi CMS, ERP, CRM, dan layanan eksternal', en: 'CMS, ERP, CRM, and external service integration' },
+      { id: 'Pengujian kualitas, keamanan, dan beban', en: 'Quality, security, and load testing' },
+      { id: 'Deployment, dokumentasi, dan pengembangan lanjut', en: 'Deployment, documentation, and future evolution' },
     ],
   },
   {
@@ -69,10 +82,14 @@ const servicesDetail = [
       en: 'Distinctive & Interactive Digital Experiences',
     },
     features: [
-      { id: 'Interaksi & animasi 3D WebGL / Canvas halus', en: 'Smooth WebGL / Canvas 3D interactions & motion' },
-      { id: 'Arah visual khas yang memikat pengunjung', en: 'Distinctive visual direction that wows visitors' },
-      { id: 'Pola antarmuka modern (UI/UX) berstandar tinggi', en: 'State-of-the-art modern UI/UX design patterns' },
-      { id: 'Pengalaman unik yang memperkuat nilai brand', en: 'Memorable experience that amplifies brand authority' },
+      { id: 'Eksplorasi konsep dan ide pengalaman utama', en: 'Core experience concept and idea exploration' },
+      { id: 'Moodboard, referensi, dan arah artistik', en: 'Moodboard, references, and art direction' },
+      { id: 'Storyboarding interaksi dan ritme gerak', en: 'Interaction and motion-rhythm storyboarding' },
+      { id: 'Prototipe WebGL, Canvas, atau pengalaman 3D', en: 'WebGL, Canvas, or 3D experience prototyping' },
+      { id: 'Sistem motion yang konsisten dan bermakna', en: 'Consistent and purposeful motion system' },
+      { id: 'Adaptasi pengalaman untuk seluruh ukuran layar', en: 'Experience adaptation across every screen size' },
+      { id: 'Fallback, aksesibilitas, dan optimasi performa', en: 'Fallbacks, accessibility, and performance tuning' },
+      { id: 'Polish akhir, pengujian, dan peluncuran', en: 'Final polish, testing, and launch' },
     ],
   },
 ]
@@ -128,9 +145,10 @@ export function ServicesPage() {
                 </div>
                 <p className="service-overview">{overview ? t(overview.copy, language) : ''}</p>
               </div>
-              <ul className="service-feature-list">
-                {service.features.map((feature, fIdx) => <li key={fIdx}><span className="feature-check">0{fIdx + 1}</span><span>{t(feature, language)}</span></li>)}
-              </ul>
+              <ServiceTimeline
+                steps={service.features.map((feature) => t(feature, language))}
+                stepLabel={language === 'id' ? 'PROSES LAYANAN' : 'SERVICE PROCESS'}
+              />
             </FlowSection>
           )
         })}

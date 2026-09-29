@@ -61,7 +61,7 @@ export default function FlowArt({ children, className = '', 'aria-label': ariaLa
           )
         }
 
-        if (index < sections.length - 1) {
+        if (index < sections.length - 1 && section.offsetHeight <= window.innerHeight * 1.2) {
           ScrollTrigger.create({
             trigger: section,
             start: 'bottom bottom',
