@@ -143,6 +143,10 @@ export function LegacyHomePage() {
       const id = hash.replace(/^#/, '')
       const target = document.getElementById(id) || document.querySelector(hash)
       if (!target) return
+      document.body.classList.remove('is-loading')
+      if (typeof (window as any).ScrollTrigger?.refresh === 'function') {
+        (window as any).ScrollTrigger.refresh()
+      }
       if (typeof (window as any).HellensScrollToElement === 'function') {
         (window as any).HellensScrollToElement(target)
       } else if ((window as any).lenis && typeof (window as any).lenis.scrollTo === 'function') {
@@ -161,6 +165,9 @@ export function LegacyHomePage() {
           document.body.appendChild(script); loadedScripts.push(script)
         })
       }
+      setTimeout(() => {
+        document.body.classList.remove('is-loading')
+      }, 300)
       if (window.location.hash) {
         setTimeout(scrollToHash, 250)
         setTimeout(scrollToHash, 650)
