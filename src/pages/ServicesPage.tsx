@@ -96,7 +96,7 @@ export function ServicesPage() {
     <motion.main className="subpage" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <Navbar />
 
-      <header className="subpage-hero">
+      <header className="subpage-hero subpage-hero--services">
         <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="subpage-eyebrow">
           {language === 'id' ? 'LAYANAN HELLENS' : 'HELLENS SERVICES'}
         </motion.p>
