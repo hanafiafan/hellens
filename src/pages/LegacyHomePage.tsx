@@ -94,6 +94,12 @@ export function LegacyHomePage() {
   const { language } = useLanguage()
   const markup = useMemo(() => createMarkup(language), [language])
   useEffect(() => {
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual'
+    }
+    document.documentElement.scrollTop = 0
+    document.body.scrollTop = 0
+    window.scrollTo(0, 0)
     document.body.classList.add('legacy-experience', 'is-loading')
     document.body.dataset.story = 'listening-first'
     const stylesheet = document.createElement('link'); stylesheet.rel = 'stylesheet'; stylesheet.href = '/experience/main.css'; document.head.appendChild(stylesheet)
