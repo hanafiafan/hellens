@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useLanguage } from '../context/LanguageContext'
 
-export function Footer() {
+type FooterProps = {
+  description?: string
+}
+
+export function Footer({ description }: FooterProps) {
   const { language } = useLanguage()
   const [copied, setCopied] = useState(false)
 
@@ -55,7 +59,7 @@ export function Footer() {
   }
 
   return (
-    <footer className="section outro" aria-labelledby="outro-title">
+    <footer className={`section outro${description ? ' outro--with-description' : ''}`} aria-labelledby="outro-title">
       <div
         className="outro__fx"
         aria-hidden="true"
@@ -73,6 +77,8 @@ export function Footer() {
           <span>{language === 'id' ? 'MARI BANGUN' : 'LET’S BUILD'}</span>
           <span>{language === 'id' ? 'HAL BESAR BERIKUTNYA' : 'THE NEXT BIG THING'}</span>
         </h2>
+
+        {description && <p className="outro__description">{description}</p>}
 
         <a
           className="outro__social"
@@ -131,4 +137,3 @@ export function Footer() {
     </footer>
   )
 }
-
