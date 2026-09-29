@@ -136,7 +136,10 @@ export function ServicesPage() {
         })}
       </FlowArt>
 
-      <Footer description={language === 'id' ? 'Ceritakan kebutuhan bisnis Anda. Kami akan membantu menyusun arah, sistem, dan pengalaman digital yang tepat.' : 'Tell us what your business needs. We will help shape the right direction, system, and digital experience.'} />
+      <Footer
+        description={language === 'id' ? 'Ceritakan kebutuhan bisnis Anda.' : 'Tell us what your business needs.'}
+        descriptionRight={language === 'id' ? 'Kami akan membantu menyusun arah, sistem, dan pengalaman digital yang tepat.' : 'We will help shape the right direction, system, and digital experience.'}
+      />
     </motion.main>
   )
 }

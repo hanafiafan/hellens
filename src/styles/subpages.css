@@ -156,19 +156,24 @@
   margin: 0;
   padding-inline: 0;
 }
+.outro--with-description .outro__inner {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: clamp(120px, 14vw, 260px);
+}
 .outro--with-description .outro__description {
-  grid-column: 1 / -1;
   grid-row: 2;
-  justify-self: center;
-  max-width: 640px;
+  max-width: 32ch;
   margin: 0;
   color: #d8d3e1;
   font-size: clamp(1rem, 1.45vw, 1.3rem);
   line-height: 1.45;
-  text-align: center;
 }
+.outro--with-description .outro__description--left { grid-column: 1; justify-self: start; text-align: left; }
+.outro--with-description .outro__description--right { grid-column: 2; justify-self: end; text-align: right; }
 .outro--with-description .outro__social,
 .outro--with-description .outro__mail { grid-row: 3; }
+.outro--with-description .outro__social { justify-self: start; }
+.outro--with-description .outro__mail { justify-self: end; }
 
 .case-hero {
   width: min(var(--page-max), calc(100% - var(--page-gutter) * 2));
@@ -306,7 +311,8 @@
   .services-flow--full .service-card-title { font-size: clamp(4rem, 20vw, 6.5rem); }
   .services-flow--full .service-feature-list { grid-template-columns: 1fr 1fr; }
   .services-flow--full .service-feature-list li { min-height: 0; }
-  .outro--with-description .outro__description { grid-column: 1; grid-row: auto; margin-top: 22px; }
+  .outro--with-description .outro__inner { grid-template-columns: 1fr; column-gap: 0; }
+  .outro--with-description .outro__description { grid-column: 1; grid-row: auto; justify-self: center; max-width: 34ch; margin-top: 18px; text-align: center; }
   .outro--with-description .outro__social,
   .outro--with-description .outro__mail { grid-row: auto; }
 }

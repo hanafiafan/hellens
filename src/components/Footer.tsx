@@ -3,9 +3,10 @@ import { useLanguage } from '../context/LanguageContext'
 
 type FooterProps = {
   description?: string
+  descriptionRight?: string
 }
 
-export function Footer({ description }: FooterProps) {
+export function Footer({ description, descriptionRight }: FooterProps) {
   const { language } = useLanguage()
   const [copied, setCopied] = useState(false)
 
@@ -78,7 +79,8 @@ export function Footer({ description }: FooterProps) {
           <span>{language === 'id' ? 'HAL BESAR BERIKUTNYA' : 'THE NEXT BIG THING'}</span>
         </h2>
 
-        {description && <p className="outro__description">{description}</p>}
+        {description && <p className="outro__description outro__description--left">{description}</p>}
+        {descriptionRight && <p className="outro__description outro__description--right">{descriptionRight}</p>}
 
         <a
           className="outro__social"
