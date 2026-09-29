@@ -6,6 +6,7 @@ import { Footer } from '../components/Footer'
 import { useLanguage } from '../context/LanguageContext'
 import { useSeo } from '../hooks/useSeo'
 import '../styles/globals.css'
+import '../styles/subpages.css'
 
 const aboutContent = {
   id: {

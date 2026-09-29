@@ -7,6 +7,7 @@ import { useLanguage } from '../context/LanguageContext'
 import { useSeo } from '../hooks/useSeo'
 import { services, t } from '../data/content'
 import '../styles/globals.css'
+import '../styles/subpages.css'
 
 const servicesDetail = [
   {

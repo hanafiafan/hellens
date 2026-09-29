@@ -6,6 +6,7 @@ import { TextGlitch } from '../components/ui/text-glitch-effect'
 import { useLanguage } from '../context/LanguageContext'
 import { useSeo } from '../hooks/useSeo'
 import '../styles/globals.css'
+import '../styles/subpages.css'
 
 const content = {
   id: {

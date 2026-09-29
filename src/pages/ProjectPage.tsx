@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { motion } from 'motion/react'
 import '../styles/globals.css'
+import '../styles/subpages.css'
 import { Navigate, Link, useParams } from 'react-router-dom'
 import { Navbar } from '../components/Navbar'
 import { Footer } from '../components/Footer'
@@ -111,7 +112,7 @@ export function ProjectPage() {
     }
   }
 
-  return <motion.main initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+  return <motion.main className="case-page" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
     <Navbar />
     <section className="case-hero"><div><h1>{project.title}</h1><p>{t(project.lead, language)}</p><p>{t(project.summary, language)}</p></div><dl><dt>{language === 'id' ? 'PERAN KAMI' : 'OUR ROLE'}</dt><dd>Strategy, Design & Development</dd><dt>{language === 'id' ? 'LAYANAN' : 'SERVICES'}</dt><dd>{project.services}</dd><dt>TIMELINE</dt><dd>2026</dd></dl></section>
     <div className="case-cover"><img src={`/work/${imgPrefix}-01-1600.avif`} alt={project.title} /></div>
@@ -125,4 +126,3 @@ export function ProjectPage() {
     <Footer />
   </motion.main>
 }
-
