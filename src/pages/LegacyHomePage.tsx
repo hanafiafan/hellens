@@ -1,11 +1,12 @@
 import { useEffect, useMemo } from 'react'
 import referenceDocument from '../templates-reference.html?raw'
 import { useLanguage } from '../context/LanguageContext'
+import { navigationLabels } from '../data/navigation'
 import '../styles/legacy-overrides.css'
 
 const copy = {
   id: {
-    nav: ['Awal', 'Layanan', 'Karya', 'Tentang'],
+    nav: [navigationLabels.id.home, navigationLabels.id.services, navigationLabels.id.work, navigationLabels.id.about],
     eyebrow: 'Website, Automasi & Sistem',
     lede: 'Dipercaya oleh 20+ bisnis 🤝<br>untuk membangun website yang menghasilkan 🌐,<br>dashboard yang memperjelas data 📊,<br>dan automasi yang bertumbuh ⚡',
     featured: 'PROYEK PILIHAN',
@@ -22,10 +23,10 @@ const copy = {
       'Melalui Hellens, saya bekerja bersama bisnis dari berbagai sektor untuk mengubah tantangan operasional menjadi produk yang benar-benar terpakai.',
       'Sederhana dalam proses, jelas dalam komunikasi, dan selalu berorientasi pada dampak nyata.',
     ],
-    outro: ['Mari bangun', 'hal besar berikutnya'], more: 'Lainnya',
+    outro: ['Mari bangun', 'hal besar berikutnya'], more: navigationLabels.id.more,
   },
   en: {
-    nav: ['Intro', 'Approach', 'Works', 'About'],
+    nav: [navigationLabels.en.home, navigationLabels.en.services, navigationLabels.en.work, navigationLabels.en.about],
     eyebrow: 'Websites, Automation & Systems',
     lede: 'Trusted by 20+ businesses 🤝<br>to build websites that convert 🌐,<br>dashboards that clarify 📊,<br>and automation that scales ⚡',
     featured: 'FEATURED PROJECTS',
@@ -42,7 +43,7 @@ const copy = {
       'Through Hellens, I work with businesses across different sectors to turn operational challenges into products people actually use.',
       'Simple processes, clear communication, and an unwavering focus on meaningful impact.',
     ],
-    outro: ["Let’s build", 'the next big thing'], more: 'More',
+    outro: ["Let’s build", 'the next big thing'], more: navigationLabels.en.more,
   },
 } as const
 
