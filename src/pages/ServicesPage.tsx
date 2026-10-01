@@ -1,6 +1,5 @@
 import { motion } from 'motion/react'
 import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { Navbar } from '../components/Navbar'
 import { Footer } from '../components/Footer'
 import { useLanguage } from '../context/LanguageContext'
@@ -8,6 +7,8 @@ import { useSeo } from '../hooks/useSeo'
 import { services, t } from '../data/content'
 import FlowArt, { FlowSection } from '../components/ui/story-scroll'
 import { ServiceTimeline } from '../components/ui/service-timeline'
+import { GridPulse } from '../components/ui/grid-pulse'
+import { ServiceBackdrop, ServiceGlyph, ServiceVisual } from '../components/ui/service-visuals'
 import '../styles/globals.css'
 import '../styles/subpages.css'
 
@@ -15,7 +16,7 @@ const servicesDetail = [
   {
     slug: 'website',
     title: 'WEBSITE',
-    icon: '🌐',
+    mark: 'WWW',
     color: '#7866ff',
     tagline: {
       id: 'Website Cepat, Jelas & Berdampak',
@@ -35,7 +36,7 @@ const servicesDetail = [
   {
     slug: 'automation',
     title: 'AUTOMATION',
-    icon: '⚡',
+    mark: 'OPS',
     color: '#ff5bbd',
     tagline: {
       id: 'Automasi Alur Kerja & Data Bisnis',
@@ -55,7 +56,7 @@ const servicesDetail = [
   {
     slug: 'system',
     title: 'SYSTEM',
-    icon: '📊',
+    mark: 'SYS',
     color: '#42d6ff',
     tagline: {
       id: 'Sistem Terintegrasi & Dashboard Operasional',
@@ -75,7 +76,7 @@ const servicesDetail = [
   {
     slug: 'creativity',
     title: 'CREATIVITY',
-    icon: '🎨',
+    mark: 'LAB',
     color: '#ffe05c',
     tagline: {
       id: 'Pengalaman Digital Interaktif & Berkarakter',
@@ -107,20 +108,19 @@ export function ServicesPage() {
     `https://hellens.dev/services${language === 'en' ? '?lang=en' : ''}`,
   )
 
-  const suffix = language === 'en' ? '?lang=en' : ''
-
   return (
-    <motion.main className="subpage" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+    <motion.main className="subpage services-page" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <Navbar />
 
       <header className="subpage-hero subpage-hero--services">
-        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="subpage-eyebrow">
+        <GridPulse cell={26} reach={3} ambient={3} />
+        <motion.p data-grid-avoid initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="subpage-eyebrow">
           {language === 'id' ? 'LAYANAN HELLENS' : 'HELLENS SERVICES'}
         </motion.p>
-        <motion.h1 initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08 }} className="subpage-title">
+        <motion.h1 data-grid-avoid initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08 }} className="subpage-title">
           {language === 'id' ? 'LAYANAN KAMI' : 'OUR SERVICES'}
         </motion.h1>
-        <motion.p initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.16 }} className="subpage-intro">
+        <motion.p data-grid-avoid initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.16 }} className="subpage-intro">
           {language === 'id'
             ? 'Membangun solusi digital yang jelas, terukur, dan dirancang khusus untuk mendukung pertumbuhan bisnis Anda.'
             : 'Building clear, measurable, and custom digital solutions designed to scale your business.'}
@@ -133,21 +133,34 @@ export function ServicesPage() {
           return (
             <FlowSection
               key={service.slug}
-              className="service-card-detailed"
+              className={`service-card-detailed service-card--${service.slug}`}
               aria-label={`${index + 1}. ${service.title}`}
               style={{ '--service-color': service.color } as React.CSSProperties}
             >
-              <div className="service-flow__meta"><span>0{index + 1} — {language === 'id' ? 'LAYANAN' : 'SERVICE'}</span><span>{service.icon}</span></div>
-              <div className="service-flow__content">
-                <div className="service-flow__headline">
-                  <h2 className="service-card-title">{service.title}</h2>
-                  <p className="service-tagline">{t(service.tagline, language)}</p>
+              <ServiceBackdrop type={service.slug as 'website' | 'automation' | 'system' | 'creativity'} />
+              <div className="service-flow__intro" data-service-intro>
+                <div className="service-flow__meta">
+                  <span>HELLENS® / {language === 'id' ? 'KAPABILITAS' : 'CAPABILITY'} 0{index + 1}</span>
+                  <span className="service-flow__mark" aria-hidden="true">
+                    <ServiceGlyph type={service.slug as 'website' | 'automation' | 'system' | 'creativity'} />
+                    <span><b>{service.mark}</b><small>HD / 26</small></span>
+                  </span>
                 </div>
-                <p className="service-overview">{overview ? t(overview.copy, language) : ''}</p>
+                <div className="service-flow__content">
+                  <div className="service-flow__headline">
+                    <h2 className="service-card-title">{service.title}</h2>
+                    <p className="service-tagline">{t(service.tagline, language)}</p>
+                  </div>
+                  <div className="service-flow__aside">
+                    <p className="service-overview">{overview ? t(overview.copy, language) : ''}</p>
+                    <ServiceVisual type={service.slug as 'website' | 'automation' | 'system' | 'creativity'} />
+                  </div>
+                </div>
               </div>
               <ServiceTimeline
                 steps={service.features.map((feature) => t(feature, language))}
                 stepLabel={language === 'id' ? 'PROSES LAYANAN' : 'SERVICE PROCESS'}
+                variant={service.slug as 'website' | 'automation' | 'system' | 'creativity'}
               />
             </FlowSection>
           )
