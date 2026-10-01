@@ -104,14 +104,15 @@
   };
 
   const animate = ({ mode = 0, origin = { x: .5, y: .5 }, reverse = false, duration = 720 } = {}) => new Promise(resolve => {
-    if (!program || reduced) { resolve(); return; }
+    if (!program || reduced) { canvas.style.visibility = "hidden"; resolve(); return; }
     running = true; canvas.style.visibility = "visible";
     const started = performance.now();
+    const safety = setTimeout(() => { running = false; canvas.style.visibility = "hidden"; resolve(); }, duration + 200);
     const frame = now => {
       const raw = Math.min(1, (now - started) / duration);
       draw({ progress: ease(raw), origin, mode, reverse, time: now / 1000 });
       if (raw < 1) requestAnimationFrame(frame);
-      else { running = false; if (reverse) canvas.style.visibility = "hidden"; resolve(); }
+      else { clearTimeout(safety); running = false; canvas.style.visibility = "hidden"; resolve(); }
     };
     requestAnimationFrame(frame);
   });
