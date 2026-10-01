@@ -54,4 +54,3 @@ export const pricingCatalog: PricingCatalogItem[] = [
 ]
 
 export const pricingCatalogBySlug = Object.fromEntries(pricingCatalog.map((item) => [item.slug, item])) as Record<string, PricingCatalogItem>
-
