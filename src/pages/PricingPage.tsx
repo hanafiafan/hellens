@@ -4,19 +4,9 @@ import { Footer } from '../components/Footer'
 import DitherHelixCarousel from '../components/ui/DitherHelixCarousel'
 import { useLanguage } from '../context/LanguageContext'
 import { useSeo } from '../hooks/useSeo'
+import { pricingCatalog } from '../data/pricingCatalog'
 import '../styles/globals.css'
 import '../styles/subpages.css'
-
-const wheelItemsData = [
-  { name: 'COMPANY PROFILE', slug: 'company-profile', image: 'company-profile.jpg' },
-  { name: 'POS (POINT OF SALE)', slug: 'pos', image: 'pos.jpg' },
-  { name: 'E-COMMERCE', slug: 'ecommerce', image: 'ecommerce.jpg' },
-  { name: 'INVENTORY/WAREHOUSE', slug: 'inventory', image: 'inventory.jpg' },
-  { name: 'POS + INVENTORY HYBRID', slug: 'pos-inventory', image: 'pos-inventory.jpg' },
-  { name: 'ACCOUNTING/FINANCE APP', slug: 'accounting', image: 'accounting.jpg' },
-  { name: 'CRM', slug: 'crm', image: 'crm.jpg' },
-  { name: 'HRIS/HRM', slug: 'hris', image: 'hris.jpg' },
-]
 
 export function PricingPage() {
   const { language } = useLanguage()
@@ -27,9 +17,9 @@ export function PricingPage() {
     `https://hellens.dev/pricing${language === 'en' ? '?lang=en' : ''}`,
   )
 
-  const wheelItems = wheelItemsData.map((item) => ({
+  const wheelItems = pricingCatalog.map((item) => ({
     title: item.name,
-    image: `/assets/pricing/${item.image}`,
+    image: item.image,
     href: `/pricing/detail/${item.slug}${language === 'en' ? '?lang=en' : ''}`,
   }))
 
