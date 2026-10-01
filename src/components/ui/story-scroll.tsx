@@ -37,6 +37,8 @@ export default function FlowArt({ children, className = '', 'aria-label': ariaLa
 
     const context = gsap.context(() => {
       const sections = gsap.utils.toArray<HTMLElement>('[data-flow-section]', root)
+      const scrollLength = Math.max(1, root.scrollHeight - window.innerHeight)
+      const segment = scrollLength / sections.length
 
       sections.forEach((section, index) => {
         const inner = section.querySelector<HTMLElement>('[data-flow-inner]')
@@ -44,31 +46,26 @@ export default function FlowArt({ children, className = '', 'aria-label': ariaLa
 
         gsap.set(section, { zIndex: index + 1 })
 
+        gsap.set(section, { zIndex: index + 1, visibility: index === 0 ? 'visible' : 'hidden' })
+
         if (index > 0) {
           gsap.fromTo(
             inner,
-            { rotation: 30, transformOrigin: '0% 100%' },
+            { yPercent: 102, rotation: 30, scale: 1, transformOrigin: '0% 100%' },
             {
+              yPercent: 0,
               rotation: 0,
               ease: 'none',
               scrollTrigger: {
-                trigger: section,
-                start: 'top bottom',
-                end: 'top 25%',
-                scrub: true,
+                trigger: root,
+                start: () => `top+=${index * segment + window.innerHeight * 0.18} top`,
+                end: () => `top+=${index * segment + window.innerHeight * 0.9} top`,
+                scrub: 0.85,
+                onEnter: () => gsap.set(section, { visibility: 'visible' }),
+                onLeaveBack: () => gsap.set(section, { visibility: 'hidden' }),
               },
             },
           )
-        }
-
-        if (index < sections.length - 1 && section.offsetHeight <= window.innerHeight * 1.2) {
-          ScrollTrigger.create({
-            trigger: section,
-            start: 'bottom bottom',
-            end: 'bottom top',
-            pin: inner,
-            pinSpacing: false,
-          })
         }
       })
 
@@ -78,5 +75,15 @@ export default function FlowArt({ children, className = '', 'aria-label': ariaLa
     return () => context.revert()
   }, [count])
 
-  return <div ref={rootRef} className={`flow-art ${className}`} aria-label={ariaLabel}>{children}</div>
+  return (
+    <div
+      ref={rootRef}
+      className={`flow-art ${className}`}
+      data-flow-root
+      style={{ '--flow-count': count } as CSSProperties}
+      aria-label={ariaLabel}
+    >
+      <div className="flow-art__stage">{children}</div>
+    </div>
+  )
 }
