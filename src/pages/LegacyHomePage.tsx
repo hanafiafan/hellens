@@ -112,7 +112,6 @@ export function LegacyHomePage() {
     const stylesheet = document.createElement('link'); stylesheet.rel = 'stylesheet'; stylesheet.href = '/experience/main.css'; document.head.appendChild(stylesheet)
     const loadedScripts: HTMLScriptElement[] = []
     let cancelled = false
-    let heroFallbackTimer = 0
     const projectAliases: Record<string, string> = {
       'conversion web': 'conversion-web',
       conversion: 'conversion-web',
@@ -214,26 +213,6 @@ export function LegacyHomePage() {
           document.body.appendChild(script); loadedScripts.push(script)
         })
       }
-      // The WebGL renderer can create a valid context yet still draw a black
-      // frame on some browser/GPU combinations. Use the animated DOM grid as
-      // the reliable production renderer after the opening moment. The module
-      // is idempotent and exits when the original fallback already exists.
-      heroFallbackTimer = window.setTimeout(async () => {
-        if (cancelled || document.querySelector('.dome-grid')) return
-        try {
-          const heroGridUrl = '/assets/hero-grid-D0EBdqqM.js'
-          const heroGrid = await import(/* @vite-ignore */ heroGridUrl) as {
-            initHeroGrid: () => unknown
-          }
-          if (cancelled) return
-          document.body.classList.add('no-webgl')
-          heroGrid.initHeroGrid()
-          document.body.classList.remove('is-loading')
-        } catch (error) {
-          console.error('[hero] CSS fallback failed to load:', error)
-          document.body.classList.remove('is-loading')
-        }
-      }, 900)
       setTimeout(() => {
         syncProjectLinks()
         document.body.classList.remove('is-loading')
@@ -245,7 +224,7 @@ export function LegacyHomePage() {
       }
     }
     void load()
-    return () => { cancelled = true; window.clearTimeout(heroFallbackTimer); workObserver.disconnect(); window.removeEventListener('hashchange', scrollToHash); document.removeEventListener('click', openProject, true); document.removeEventListener('click', openMore); loadedScripts.forEach(script => script.remove()); stylesheet.remove(); document.body.classList.remove('legacy-experience', 'is-loading', 'no-webgl'); document.querySelector('.dome-grid')?.remove(); delete document.body.dataset.story }
+    return () => { cancelled = true; workObserver.disconnect(); window.removeEventListener('hashchange', scrollToHash); document.removeEventListener('click', openProject, true); document.removeEventListener('click', openMore); loadedScripts.forEach(script => script.remove()); stylesheet.remove(); document.body.classList.remove('legacy-experience', 'is-loading', 'no-webgl'); document.querySelector('.dome-grid')?.remove(); delete document.body.dataset.story }
   }, [markup])
   const switchLanguage = (next: 'id' | 'en') => {
     if (next === language) return
