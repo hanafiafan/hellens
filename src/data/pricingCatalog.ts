@@ -14,8 +14,9 @@ export type PricingCatalogItem = {
 }
 
 const local = (file: string) => `/assets/pricing/${file}`
+const uniqueHero = (slug: string) => `/assets/pricing/hero-web/${slug}.webp`
 
-export const pricingCatalog: PricingCatalogItem[] = [
+const pricingCatalogBase: PricingCatalogItem[] = [
   { id: '01', slug: 'company-profile', name: 'COMPANY PROFILE', tier: 'Essential', priority: 'P1', subtitle: 'Website Profesional & Identitas Brand Digital', description: 'Website perusahaan yang membangun kredibilitas, menjelaskan layanan, mengelola konten, dan mengubah pengunjung menjadi prospek.', image: local('company-profile.jpg'), projectSlug: 'conversion-web' },
   { id: '02', slug: 'pos', name: 'POS (POINT OF SALE)', tier: 'Advanced', priority: 'P1', subtitle: 'Kasir Cepat & Operasional Ritel Modern', description: 'Kelola transaksi, produk, struk, shift kasir, diskon, outlet, dan laporan penjualan dalam satu sistem.', image: local('pos.jpg'), projectSlug: 'pangeam' },
   { id: '03', slug: 'ecommerce', name: 'E-COMMERCE', tier: 'Advanced', priority: 'P1', subtitle: 'Toko Online & Mesin Penjualan Digital', description: 'Platform perdagangan digital dengan katalog, checkout, pembayaran, ongkir, promosi, stok, dan pengelolaan pesanan.', image: local('ecommerce.jpg'), projectSlug: 'pangeam' },
@@ -52,5 +53,10 @@ export const pricingCatalog: PricingCatalogItem[] = [
   { id: '34', slug: 'pos-inventory', name: 'POS + INVENTORY HYBRID', tier: 'Advanced', priority: 'P1', subtitle: 'Penjualan & Stok Dalam Satu Alur', description: 'Hubungkan kasir, outlet, stok, gudang, purchasing, retur, transfer, laporan margin, dan kontrol operasional.', image: local('pos-inventory.jpg'), projectSlug: 'payhoa' },
   { id: '35', slug: 'multi-tenant-saas', name: 'MULTI-TENANT SAAS', tier: 'Enterprise', priority: 'P2', subtitle: 'Produk SaaS Siap Tumbuh & Dimonetisasi', description: 'Fondasi SaaS dengan tenant, subscription, billing, role, provisioning, usage limit, admin platform, dan observability.', image: local('mobile-platform.jpg'), imageSource: 'https://unsplash.com/photos/oN5yMNRSofs' },
 ]
+
+export const pricingCatalog: PricingCatalogItem[] = pricingCatalogBase.map((item) => ({
+  ...item,
+  image: uniqueHero(item.slug),
+}))
 
 export const pricingCatalogBySlug = Object.fromEntries(pricingCatalog.map((item) => [item.slug, item])) as Record<string, PricingCatalogItem>

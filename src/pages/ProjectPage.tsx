@@ -98,6 +98,10 @@ export function ProjectPage() {
   ]
   const next = projects[(projects.indexOf(project) + 1) % projects.length]
   const references = visualReferences[project.slug] ?? []
+  const projectImages = Array.from({ length: project.count }, (_, index) => `/work/${imgPrefix}-${String(index + 1).padStart(2, '0')}-1600.avif`)
+  const galleryImages = projectImages.slice(1)
+  const imagesPerPhase = Math.max(1, Math.ceil(galleryImages.length / phases.length))
+  const phaseImages = phases.map((_, phaseIndex) => galleryImages.slice(phaseIndex * imagesPerPhase, (phaseIndex + 1) * imagesPerPhase))
 
   const handleNextClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
@@ -114,14 +118,18 @@ export function ProjectPage() {
 
   return <motion.main className="case-page" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
     <Navbar />
-    <section className="case-hero"><div><h1>{project.title}</h1><p>{t(project.lead, language)}</p><p>{t(project.summary, language)}</p></div><dl><dt>{language === 'id' ? 'PERAN KAMI' : 'OUR ROLE'}</dt><dd>Strategy, Design & Development</dd><dt>{language === 'id' ? 'LAYANAN' : 'SERVICES'}</dt><dd>{project.services}</dd><dt>TIMELINE</dt><dd>2026</dd></dl></section>
-    <div className="case-cover"><img src={`/work/${imgPrefix}-01-1600.avif`} alt={project.title} /></div>
-    <section className="case-overview"><h2>{language === 'id' ? 'GAMBARAN PROYEK' : 'PROJECT OVERVIEW'}</h2><article><h3>{language === 'id' ? 'Tantangan' : 'Challenge'}</h3><p>{t(project.challenge, language)}</p></article><article><h3>{language === 'id' ? 'Solusi' : 'Solution'}</h3><p>{t(project.solution, language)}</p></article></section>
+    <header className="case-hero">
+      <div className="case-hero__eyebrow"><span>HELLENS® / {String(projects.indexOf(project) + 1).padStart(2, '0')}</span><span>CASE STUDY · 2026</span></div>
+      <div className="case-hero__title"><h1>{project.title}</h1><p>{t(project.lead, language)}</p></div>
+      <div className="case-hero__intro"><p>{t(project.summary, language)}</p><dl><div><dt>{language === 'id' ? 'PERAN KAMI' : 'OUR ROLE'}</dt><dd>Strategy, Design & Development</dd></div><div><dt>{language === 'id' ? 'LAYANAN' : 'SERVICES'}</dt><dd>{project.services}</dd></div><div><dt>TIMELINE</dt><dd>2026</dd></div></dl></div>
+    </header>
+    <figure className="case-cover"><img src={projectImages[0]} alt={project.title} /><figcaption><span>{project.title}</span><span>{project.services}</span></figcaption></figure>
+    <section className="case-overview"><div className="case-section-heading"><span>01</span><h2>{language === 'id' ? 'GAMBARAN PROYEK' : 'PROJECT OVERVIEW'}</h2></div><article><h3>{language === 'id' ? 'Tantangan' : 'Challenge'}</h3><p>{t(project.challenge, language)}</p></article><article><h3>{language === 'id' ? 'Solusi' : 'Solution'}</h3><p>{t(project.solution, language)}</p></article></section>
     <section className="case-references">
-      <div className="case-references__head"><span>01</span><h2>{language === 'id' ? 'REFERENSI VISUAL' : 'VISUAL REFERENCES'}</h2><p>{language === 'id' ? 'Referensi terkurasi untuk memetakan kualitas visual, pola interaksi, dan arah antarmuka—bukan karya yang diklaim sebagai hasil proyek Hellens.' : 'Curated references used to frame visual quality, interaction patterns, and interface direction—not work claimed as a Hellens project deliverable.'}</p></div>
+      <div className="case-references__head"><span>02</span><h2>{language === 'id' ? 'REFERENSI VISUAL' : 'VISUAL REFERENCES'}</h2><p>{language === 'id' ? 'Referensi terkurasi untuk memetakan kualitas visual, pola interaksi, dan arah antarmuka—bukan karya yang diklaim sebagai hasil proyek Hellens.' : 'Curated references used to frame visual quality, interaction patterns, and interface direction—not work claimed as a Hellens project deliverable.'}</p></div>
       <div className="case-references__grid">{references.map((reference) => <figure key={reference.image}><img src={reference.image} alt={reference.label} loading="lazy" /><figcaption><span>{reference.label}</span><a href={reference.source} target="_blank" rel="noreferrer">{language === 'id' ? 'Lihat sumber' : 'View source'} ↗</a></figcaption></figure>)}</div>
     </section>
-    {phases.map((phase, index) => <section className="case-phase" key={phase[0]}><span>0{index + 2}</span><h2>{phase[0]}</h2><div><article><h3>{language === 'id' ? 'Masalah' : 'Problem'}</h3><p>{t(phase[1], language)}</p></article><article><h3>{language === 'id' ? 'Yang kami lakukan' : 'What we did'}</h3><p>{phase[2]}</p></article><article><h3>{language === 'id' ? 'Pekerjaan' : 'Work'}</h3><p>{phase[3]}</p></article><article><h3>{language === 'id' ? 'Hasil' : 'Outcome'}</h3><p>{t(project.solution, language)}</p></article></div><div className="case-gallery">{Array.from({ length: Math.min(3, project.count - 1) }, (_, imageIndex) => <img key={imageIndex} src={`/work/${imgPrefix}-${String(imageIndex + 2).padStart(2, '0')}-1600.avif`} alt="" loading="lazy" />)}</div></section>)}
+    {phases.map((phase, index) => <section className="case-phase" key={phase[0]}><div className="case-section-heading"><span>0{index + 3}</span><h2>{phase[0]}</h2></div><div className="case-phase__copy"><article><h3>{language === 'id' ? 'Masalah' : 'Problem'}</h3><p>{t(phase[1], language)}</p></article><article><h3>{language === 'id' ? 'Yang kami lakukan' : 'What we did'}</h3><p>{phase[2]}</p></article><article><h3>{language === 'id' ? 'Pekerjaan' : 'Work'}</h3><p>{phase[3]}</p></article><article><h3>{language === 'id' ? 'Hasil' : 'Outcome'}</h3><p>{t(project.solution, language)}</p></article></div>{phaseImages[index].length > 0 && <div className={`case-gallery case-gallery--${phaseImages[index].length}`}>{phaseImages[index].map((image, imageIndex) => <figure key={image}><img src={image} alt={`${project.title} — ${phase[0]} ${imageIndex + 1}`} loading="lazy" /><figcaption>{String(index * imagesPerPhase + imageIndex + 1).padStart(2, '0')} / {phase[0]}</figcaption></figure>)}</div>}</section>)}
     <Link className="next-case" to={`/projects/${next.slug}`} onClick={handleNextClick}><small>{language === 'id' ? 'Studi kasus berikutnya' : 'Next case study'}</small><strong>{next.title}</strong><span>→</span></Link>
     <Footer />
   </motion.main>

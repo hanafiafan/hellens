@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useLanguage } from '../context/LanguageContext'
+import '../styles/footer.css'
 
 type FooterProps = {
   description?: string
@@ -69,26 +70,19 @@ export function Footer({ description, descriptionRight }: FooterProps) {
         data-us-dpi="1"
         data-us-fps="30"
       />
-      <div className="outro__inner">
-        <h2
-          className="outro__title"
-          id="outro-title"
-          aria-label={language === 'id' ? 'MARI BANGUN HAL BESAR BERIKUTNYA' : 'LET’S BUILD THE NEXT BIG THING'}
-        >
-          <span>{language === 'id' ? 'MARI BANGUN' : 'LET’S BUILD'}</span>
-          <span>{language === 'id' ? 'HAL BESAR BERIKUTNYA' : 'THE NEXT BIG THING'}</span>
-        </h2>
-
-        {description && <p className="outro__description outro__description--left">{description}</p>}
-        {descriptionRight && <p className="outro__description outro__description--right">{descriptionRight}</p>}
-
-        <a
-          className="outro__social"
-          href="https://wa.me/6285726465083"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="WhatsApp"
-        >
+      <div className="outro__inner outro-layout">
+        <section className="outro-panel outro-panel--left" aria-labelledby="outro-title">
+          <h2 id="outro-title">
+            <span>{language === 'id' ? 'MARI BANGUN' : 'LET’S BUILD'}</span>
+          </h2>
+          {description && <p className="outro-panel__description">{description}</p>}
+          <a
+            className="outro__social outro-panel__link"
+            href="https://wa.me/6285726465083"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="WhatsApp"
+          >
           <span className="outro__roll" aria-hidden="true">
             <span className="outro__roll-ch" style={{ '--i': 0 } as React.CSSProperties}><span>W</span><span>W</span></span>
             <span className="outro__roll-ch" style={{ '--i': 1 } as React.CSSProperties}><span>h</span><span>h</span></span>
@@ -102,16 +96,25 @@ export function Footer({ description, descriptionRight }: FooterProps) {
           <svg className="outro__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M7 17L17 7M17 17V7H7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
-        </a>
+          </a>
+        </section>
 
-        <a
-          className="outro__mail"
-          href="mailto:hellensdev@gmail.com"
-          aria-label={copied ? 'Email copied to clipboard!' : 'Copy email to clipboard'}
-          data-copy-button={copied ? 'copied' : ''}
-          data-copy-email="hellensdev@gmail.com"
-          onClick={handleCopyEmail}
-        >
+        <div className="outro-beam-safe" aria-hidden="true" />
+
+        <section className="outro-panel outro-panel--right" aria-labelledby="outro-title-right">
+          <h2 id="outro-title-right">
+            <span>{language === 'id' ? 'HAL BESAR' : 'THE NEXT'}</span>
+            <span>{language === 'id' ? 'BERIKUTNYA' : 'BIG THING'}</span>
+          </h2>
+          {descriptionRight && <p className="outro-panel__description">{descriptionRight}</p>}
+          <a
+            className="outro__mail outro-panel__link"
+            href="mailto:hellensdev@gmail.com"
+            aria-label={copied ? 'Email copied to clipboard!' : 'Copy email to clipboard'}
+            data-copy-button={copied ? 'copied' : ''}
+            data-copy-email="hellensdev@gmail.com"
+            onClick={handleCopyEmail}
+          >
           <span className="copy-email-icon copy-email-icon--lg" aria-hidden="true">
             <span className="copy-email-icon__el" />
             <span className="copy-email-icon__el">
@@ -130,7 +133,8 @@ export function Footer({ description, descriptionRight }: FooterProps) {
             <span className="copy-email-text__el">Click to copy email</span>
             <span className="copy-email-text__el">Copied to clipboard!</span>
           </span>
-        </a>
+          </a>
+        </section>
       </div>
 
       <div className="outro__meta">

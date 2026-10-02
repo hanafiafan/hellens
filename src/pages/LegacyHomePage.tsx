@@ -84,8 +84,14 @@ function createMarkup(language: 'id' | 'en') {
   all<HTMLAnchorElement>('a[href="mailto:iamvisp@gmail.com"]').forEach(link => { link.href = 'mailto:hellensdev@gmail.com'; link.dataset.copyEmail = 'hellensdev@gmail.com' })
   all('[data-copy-email-element]').forEach(element => { element.textContent = 'hellensdev@gmail.com' })
   const outroLines = all('.outro__title span')
-  outroLines[0].textContent = text.outro[0]; outroLines[1].textContent = text.outro[1]
+  outroLines[0].textContent = text.outro[0]
+  if (language === 'id') {
+    outroLines[1].innerHTML = 'HAL BESAR<br>BERIKUTNYA'
+  } else {
+    outroLines[1].innerHTML = 'THE NEXT<br>BIG THING'
+  }
   one('.outro__title')!.setAttribute('aria-label', text.outro.join(' '))
+  one('.section.outro')?.setAttribute('id', 'contact')
   const social = one<HTMLAnchorElement>('.outro__social')
   if (social) { social.href = 'https://wa.me/6285155278034'; social.setAttribute('aria-label', 'WhatsApp'); social.querySelector('.outro__roll')!.textContent = 'WhatsApp ↗' }
   return document.body.innerHTML
@@ -106,17 +112,59 @@ export function LegacyHomePage() {
     const stylesheet = document.createElement('link'); stylesheet.rel = 'stylesheet'; stylesheet.href = '/experience/main.css'; document.head.appendChild(stylesheet)
     const loadedScripts: HTMLScriptElement[] = []
     let cancelled = false
+    let heroFallbackTimer = 0
+    const projectAliases: Record<string, string> = {
+      'conversion web': 'conversion-web',
+      conversion: 'conversion-web',
+      okx: 'conversion-web',
+      'commerce system': 'pangeam',
+      pangeam: 'pangeam',
+      'ai automation': 'lumus-ai',
+      lumus: 'lumus-ai',
+      'business ops': 'globaltrack',
+      globaltrack: 'globaltrack',
+      'seo & analytics': 'keyword',
+      keyword: 'keyword',
+      'custom platform': 'payhoa',
+      payhoa: 'payhoa',
+      'system integration': 'metamap',
+      metamap: 'metamap',
+    }
+    const projectSlugFor = (item: Element) => {
+      const title = item.querySelector('.work__name')?.textContent?.trim().toLowerCase() || ''
+      return Object.entries(projectAliases).find(([name]) => title.includes(name))?.[1]
+    }
+    const syncProjectLinks = () => {
+      document.querySelectorAll('.work__item').forEach((item) => {
+        const slug = projectSlugFor(item)
+        if (!slug) return
+        const suffix = language === 'en' ? '?lang=en' : ''
+        const nameLink = item.querySelector<HTMLAnchorElement>('.work__name-link')
+        if (nameLink) {
+          nameLink.href = `/projects/${slug}${suffix}`
+          nameLink.setAttribute('aria-label', `${nameLink.textContent?.trim() || 'Project'} — ${language === 'id' ? 'lihat studi kasus' : 'view case study'}`)
+        }
+        const links = item.querySelector('.work__links')
+        links?.querySelectorAll('.work__link').forEach((link) => link.remove())
+        if (links && !links.querySelector('.work__detail-link')) {
+          const detailLink = document.createElement('a')
+          detailLink.className = 'work__detail-link'
+          detailLink.href = `/projects/${slug}${suffix}`
+          detailLink.textContent = language === 'id' ? 'Lihat Detail Proyek' : 'View Case Study'
+          detailLink.insertAdjacentHTML('beforeend', '<span aria-hidden="true">↗</span>')
+          links.prepend(detailLink)
+        }
+        item.setAttribute('data-project-href', `/projects/${slug}${suffix}`)
+      })
+    }
+    const workObserver = new MutationObserver(syncProjectLinks)
+    const workRoot = document.querySelector('.section--work')
+    if (workRoot) workObserver.observe(workRoot, { childList: true, subtree: true })
     const openProject = (event: MouseEvent) => {
       const target = event.target as Element | null
       const item = target?.closest('.work__item')
       if (!item) return
-      const link = target?.closest('a')
-      if (link && (link.classList.contains('work__link') || (link.href && link.href.includes('wa.me')))) {
-        return
-      }
-      const title = item.querySelector('.work__name')?.textContent?.trim().toLowerCase() || ''
-      const aliases: Record<string, string> = { okx: 'conversion-web', conversion: 'conversion-web', pangeam: 'pangeam', metamap: 'metamap', globaltrack: 'globaltrack', keyword: 'keyword', payhoa: 'payhoa', lumus: 'lumus-ai' }
-      const slug = Object.entries(aliases).find(([name]) => title.includes(name))?.[1]
+      const slug = projectSlugFor(item)
       if (!slug) return
       event.preventDefault(); event.stopImmediatePropagation()
       const suffix = language === 'en' ? '?lang=en' : ''
@@ -166,7 +214,28 @@ export function LegacyHomePage() {
           document.body.appendChild(script); loadedScripts.push(script)
         })
       }
+      // The WebGL renderer can create a valid context yet still draw a black
+      // frame on some browser/GPU combinations. Use the animated DOM grid as
+      // the reliable production renderer after the opening moment. The module
+      // is idempotent and exits when the original fallback already exists.
+      heroFallbackTimer = window.setTimeout(async () => {
+        if (cancelled || document.querySelector('.dome-grid')) return
+        try {
+          const heroGridUrl = '/assets/hero-grid-D0EBdqqM.js'
+          const heroGrid = await import(/* @vite-ignore */ heroGridUrl) as {
+            initHeroGrid: () => unknown
+          }
+          if (cancelled) return
+          document.body.classList.add('no-webgl')
+          heroGrid.initHeroGrid()
+          document.body.classList.remove('is-loading')
+        } catch (error) {
+          console.error('[hero] CSS fallback failed to load:', error)
+          document.body.classList.remove('is-loading')
+        }
+      }, 900)
       setTimeout(() => {
+        syncProjectLinks()
         document.body.classList.remove('is-loading')
       }, 300)
       if (window.location.hash) {
@@ -176,7 +245,7 @@ export function LegacyHomePage() {
       }
     }
     void load()
-    return () => { cancelled = true; window.removeEventListener('hashchange', scrollToHash); document.removeEventListener('click', openProject, true); document.removeEventListener('click', openMore); loadedScripts.forEach(script => script.remove()); stylesheet.remove(); document.body.classList.remove('legacy-experience', 'is-loading'); delete document.body.dataset.story }
+    return () => { cancelled = true; window.clearTimeout(heroFallbackTimer); workObserver.disconnect(); window.removeEventListener('hashchange', scrollToHash); document.removeEventListener('click', openProject, true); document.removeEventListener('click', openMore); loadedScripts.forEach(script => script.remove()); stylesheet.remove(); document.body.classList.remove('legacy-experience', 'is-loading', 'no-webgl'); document.querySelector('.dome-grid')?.remove(); delete document.body.dataset.story }
   }, [markup])
   const switchLanguage = (next: 'id' | 'en') => {
     if (next === language) return
