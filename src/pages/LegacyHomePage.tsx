@@ -205,7 +205,7 @@ export function LegacyHomePage() {
     }
     window.addEventListener('hashchange', scrollToHash)
     const load = async () => {
-      for (const source of ['/assets/main-DOEoZWF8.js', '/experience/page-transition.js']) {
+      for (const source of ['/assets/main-r2-DOEoZWF8.js', '/experience/page-transition.js']) {
         if (cancelled) return
         await new Promise<void>((resolve, reject) => {
           const script = document.createElement('script'); script.type = 'module'; script.src = source
