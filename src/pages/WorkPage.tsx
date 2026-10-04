@@ -2,6 +2,7 @@ import { motion } from 'motion/react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Navbar } from '../components/Navbar'
+import { usePageBend } from '../hooks/usePageBend'
 import { Footer } from '../components/Footer'
 import { useLanguage } from '../context/LanguageContext'
 import { useSeo } from '../hooks/useSeo'
@@ -10,6 +11,7 @@ import '../styles/globals.css'
 import '../styles/subpages.css'
 
 export function WorkPage() {
+  usePageBend()
   const { language } = useLanguage()
   const [activeCategory, setActiveCategory] = useState<string>('all')
 
@@ -32,6 +34,7 @@ export function WorkPage() {
   return (
     <motion.main className="subpage" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <Navbar />
+    <div className="page-bend">
 
       <header className="subpage-hero">
         <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="subpage-eyebrow">
@@ -114,6 +117,7 @@ export function WorkPage() {
         })}
       </section>
 
+    </div>
       <Footer />
     </motion.main>
   )

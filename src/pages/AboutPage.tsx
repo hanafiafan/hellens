@@ -2,6 +2,7 @@ import { motion } from 'motion/react'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Navbar } from '../components/Navbar'
+import { usePageBend } from '../hooks/usePageBend'
 import { Footer } from '../components/Footer'
 import { useLanguage } from '../context/LanguageContext'
 import { useSeo } from '../hooks/useSeo'
@@ -48,6 +49,7 @@ const aboutContent = {
 } as const
 
 export function AboutPage() {
+  usePageBend()
   const { language } = useLanguage()
   const copy = aboutContent[language]
 
@@ -66,6 +68,7 @@ export function AboutPage() {
   return (
     <motion.main className="subpage" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <Navbar />
+    <div className="page-bend">
 
       <header className="subpage-hero">
         <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="subpage-eyebrow">
@@ -116,6 +119,7 @@ export function AboutPage() {
         </a>
       </section>
 
+    </div>
       <Footer />
     </motion.main>
   )

@@ -1733,3 +1733,7 @@
 .nav-switch__site a:hover { background: #0000000f; color: #0b0b0b; }
 @media (max-width: 720px) { .case-page .nav-switch { display: block; } .case-page .nav-switch__current { max-width: 52vw; overflow: hidden; text-overflow: ellipsis; } }
 @media (min-width: 721px) { .case-page .nav-switch { position: absolute; left: 50%; top: 29px; transform: translateX(-50%); } }
+
+/* Fold effect container (see usePageBend). Keep the navbar outside: perspective would capture its fixed positioning. */
+.page-bend { --fold-zone: 300; --fold-angle: 48; --fold-round: 260; --fold-fade-in: 380; --fold-fade-out: 1000; --fold-persp: 1100px; --fold-dir: -1; perspective: var(--fold-persp); }
+.bend-hidden { opacity: 0 !important; }

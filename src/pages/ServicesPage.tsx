@@ -1,6 +1,7 @@
 import { motion } from 'motion/react'
 import { useEffect } from 'react'
 import { Navbar } from '../components/Navbar'
+import { usePageBend } from '../hooks/usePageBend'
 import { Footer } from '../components/Footer'
 import { useLanguage } from '../context/LanguageContext'
 import { useSeo } from '../hooks/useSeo'
@@ -96,6 +97,7 @@ const servicesDetail = [
 ]
 
 export function ServicesPage() {
+  usePageBend()
   const { language } = useLanguage()
 
   useEffect(() => {
@@ -111,6 +113,7 @@ export function ServicesPage() {
   return (
     <motion.main className="subpage services-page" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <Navbar />
+    <div className="page-bend">
 
       <header className="subpage-hero subpage-hero--services">
         <GridPulse cell={26} reach={3} ambient={3} />
@@ -167,6 +170,7 @@ export function ServicesPage() {
         })}
       </FlowArt>
 
+    </div>
       <Footer
         description={language === 'id' ? 'Ceritakan kebutuhan bisnis Anda.' : 'Tell us what your business needs.'}
         descriptionRight={language === 'id' ? 'Kami akan membantu menyusun arah, sistem, dan pengalaman digital yang tepat.' : 'We will help shape the right direction, system, and digital experience.'}
