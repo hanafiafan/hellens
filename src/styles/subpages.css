@@ -1718,3 +1718,18 @@
   .pricing-detail-hero__mini-nav a:nth-of-type(n+3) { display:none; }
   .pricing-detail-hero__image-title { max-width:88%; }
 }
+
+/* Per-page navbar: project switcher (collapsed pill that expands into the project list). */
+.nav-switch { position: relative; padding: 0; border: 0; background: none; backdrop-filter: none; align-items: flex-start; height: 40px; }
+.nav-pill .nav-switch__current { display: flex; font-size: 14px; gap: 10px; align-items: center; height: 40px; padding: 0 18px; border: 1px solid #ffffff12; border-radius: 999px; background: #2a2a2ccc; backdrop-filter: blur(18px); color: #fff; cursor: pointer; white-space: nowrap; }
+.nav-switch small, .nav-switch__panel small { margin-right: 10px; font-size: 11px; opacity: .55; }
+.nav-switch__panel { position: absolute; z-index: 5; top: 0; left: 50%; width: max-content; min-width: 100%; max-width: min(92vw, 300px); padding: 6px; border-radius: 22px; font-size: 14px; background: #eeeeef; color: #0b0b0b; opacity: 0; visibility: hidden; transform: translateX(-50%) scale(.96); transform-origin: top center; transition: opacity .25s, transform .35s cubic-bezier(.16,1,.3,1), visibility .25s; }
+.nav-switch:hover .nav-switch__panel, .nav-switch:focus-within .nav-switch__panel { opacity: 1; visibility: visible; transform: translateX(-50%) scale(1); }
+.nav-switch__panel > a { display: flex; align-items: center; padding: 8px 14px; border-radius: 999px; color: inherit; text-decoration: none; }
+.nav-switch__panel > a:hover { background: #0000000f; }
+.nav-switch__panel > a[aria-current="page"] { background: #0b0b0b; color: #fff; }
+.nav-switch__site { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; padding: 8px 6px 2px; border-top: 1px solid #00000018; }
+.nav-switch__site a { padding: 6px 10px; border-radius: 999px; font-size: 13px; color: #0b0b0b99; text-decoration: none; }
+.nav-switch__site a:hover { background: #0000000f; color: #0b0b0b; }
+@media (max-width: 720px) { .case-page .nav-switch { display: block; } .case-page .nav-switch__current { max-width: 52vw; overflow: hidden; text-overflow: ellipsis; } }
+@media (min-width: 721px) { .case-page .nav-switch { position: absolute; left: 50%; top: 29px; transform: translateX(-50%); } }
