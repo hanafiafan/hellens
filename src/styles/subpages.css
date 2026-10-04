@@ -1737,3 +1737,72 @@
 /* Fold effect container (see usePageBend). Keep the navbar outside: perspective would capture its fixed positioning. */
 .page-bend { --fold-zone: 300; --fold-angle: 48; --fold-round: 260; --fold-fade-in: 380; --fold-fade-out: 1000; --fold-persp: 1100px; --fold-dir: -1; perspective: var(--fold-persp); }
 .bend-hidden { opacity: 0 !important; }
+
+/* Case study layout: compact editorial column (title, intro + meta, banded cover, numbered sections, slider panels). */
+.case-page { --case-w: min(1200px, calc(100% - var(--page-gutter) * 2)); }
+.case-page .case-hero {
+  width: var(--case-w); margin-inline: auto; padding: clamp(120px, 15vh, 170px) 0 clamp(60px, 8vh, 90px);
+  display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); column-gap: clamp(40px, 6vw, 110px); row-gap: 28px; align-items: start;
+}
+.case-page .case-hero__eyebrow { display: none; }
+.case-page .case-hero__title, .case-page .case-hero__intro { display: contents; }
+.case-page .case-hero h1 { grid-column: 1 / -1; margin: 0; font: 900 clamp(3rem, 4.2vw, 4.8rem)/.9 Arges; text-transform: uppercase; }
+.case-page .case-hero__title p { grid-column: 1; grid-row: 2; margin: 0; max-width: 34ch; font-size: clamp(1.15rem, 1.5vw, 1.45rem); line-height: 1.3; color: #fff; }
+.case-page .case-hero__intro > p { grid-column: 1; grid-row: 3; margin: 0; max-width: 52ch; font-size: 1.02rem; line-height: 1.5; color: #e9e9e4; }
+.case-page .case-hero dl { grid-column: 2; grid-row: 2 / span 2; display: grid; grid-template-columns: 1fr; gap: 12px; margin: 0; font-size: .95rem; }
+.case-page .case-hero dl > div { display: grid; grid-template-columns: 110px 1fr; gap: 16px; }
+.case-page .case-hero dt { color: #ffffff8f; }
+.case-page .case-hero dd { margin: 0; color: #fff; }
+
+.case-page .case-cover { position: relative; width: 100%; height: auto; margin: 0; padding: clamp(50px, 7vw, 100px) 0; background: #232323; }
+.case-page .case-cover img { display: block; width: min(1320px, 78vw); height: auto; margin: 0 auto; }
+.case-page .case-cover figcaption { display: none; }
+
+.case-page .case-overview, .case-page .case-phase, .case-page .case-references {
+  position: relative; width: var(--case-w); max-width: none; margin-inline: auto; padding: clamp(60px, 9vh, 110px) 0 0; border: 0;
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: clamp(40px, 6vw, 110px); row-gap: 40px;
+}
+.case-page .case-section-heading { grid-column: 1 / -1; position: relative; }
+.case-page .case-section-heading > span { position: absolute; left: -48px; top: 12px; margin: 0; color: #ffffff8f; font: 400 .72rem ui-monospace, SFMono-Regular, monospace; letter-spacing: .1em; }
+.case-page .case-section-heading h2 { font: 900 clamp(2.4rem, 3.4vw, 3.8rem)/.9 Arges; text-transform: uppercase; }
+.case-page .case-phase__copy { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px clamp(40px, 6vw, 110px); }
+.case-page .case-overview article, .case-page .case-phase__copy article { padding: 0; border: 0; }
+.case-page .case-overview article h3, .case-page .case-phase__copy h3 { margin: 0 0 14px; font: 700 clamp(1.4rem, 1.8vw, 1.8rem)/1.1 'Neue Montreal', sans-serif; letter-spacing: -.01em; text-transform: none; }
+.case-page .case-overview article p, .case-page .case-phase__copy article p { margin: 0; font-size: 1.06rem; line-height: 1.45; color: #f1f1ec; }
+
+.case-page .case-references__head { grid-column: 1 / -1; position: relative; display: grid; gap: 14px; }
+.case-page .case-references__head > span { position: absolute; left: -48px; top: 12px; color: #ffffff8f; font: 400 .72rem ui-monospace, SFMono-Regular, monospace; letter-spacing: .1em; }
+.case-page .case-references__head h2 { margin: 0; font: 900 clamp(2.4rem, 3.4vw, 3.8rem)/.9 Arges; text-transform: uppercase; }
+.case-page .case-references__head p { margin: 0; max-width: 60ch; color: #ffffffb0; line-height: 1.5; }
+.case-page .case-references__grid { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.case-page .case-references__grid figure { margin: 0; padding: 16px; border-radius: 24px; background: #161616; }
+.case-page .case-references__grid figure:first-child:nth-last-child(odd) { grid-column: 1 / -1; }
+.case-page .case-references__grid img { display: block; width: 100%; border-radius: 12px; }
+
+/* Slider panels: one big rounded panel per image, neighbours peeking in from the sides. */
+.case-page .case-gallery {
+  --panel: min(1200px, 78vw);
+  grid-column: 1 / -1; display: flex; gap: 20px; width: 100vw; margin: 20px 0 0 calc(50% - 50vw); padding: 0 calc((100vw - var(--panel)) / 2);
+  overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: calc((100vw - var(--panel)) / 2); scrollbar-width: none;
+}
+.case-page .case-gallery::-webkit-scrollbar { display: none; }
+.case-page .case-gallery figure, .case-page .case-gallery figure:nth-child(3n), .case-page .case-gallery--1 figure {
+  flex: 0 0 var(--panel); grid-column: auto; margin: 0; padding: clamp(24px, 5vw, 80px); border-radius: clamp(20px, 2.4vw, 34px); background: #161616; scroll-snap-align: center;
+}
+.case-page .case-gallery img { display: block; width: 100%; height: auto; aspect-ratio: auto; max-height: 70svh; object-fit: contain; border-radius: 8px; }
+.case-page .case-gallery figcaption { display: none; }
+.case-page .next-case { width: var(--case-w); margin: clamp(80px, 12vh, 140px) auto clamp(60px, 9vh, 110px); }
+
+@media (max-width: 780px) {
+  .case-page .case-hero, .case-page .case-overview, .case-page .case-phase, .case-page .case-references, .case-page .case-phase__copy, .case-page .case-references__grid { grid-template-columns: 1fr; }
+  .case-page .case-hero__title p, .case-page .case-hero__intro > p, .case-page .case-hero dl { grid-column: 1; grid-row: auto; }
+  .case-page .case-section-heading > span, .case-page .case-references__head > span { position: static; display: block; margin-bottom: 10px; }
+  .case-page .case-gallery { --panel: 86vw; }
+  .case-page .case-cover img { width: 90vw; }
+}
+.case-page :is(.case-overview, .case-phase, .case-references) { padding-inline: 0; }
+.case-page :is(.case-overview, .case-phase, .case-references) > :not(.case-gallery) { max-width: none; margin-inline: 0; }
+.case-page .case-references__head { grid-template-columns: 1fr; }
+.case-page .case-references { background: none; }
+.case-page .case-overview { padding-bottom: clamp(20px, 4vh, 50px); }
+.case-page .case-phase > .case-gallery { max-width: none; }
