@@ -109,7 +109,7 @@ export function LegacyHomePage() {
     window.scrollTo(0, 0)
     document.body.classList.add('legacy-experience', 'is-loading')
     document.body.dataset.story = 'listening-first'
-    const stylesheet = document.createElement('link'); stylesheet.rel = 'stylesheet'; stylesheet.href = '/experience/main.css'; document.head.appendChild(stylesheet)
+    const stylesheet = document.createElement('link'); stylesheet.rel = 'stylesheet'; stylesheet.href = '/experience/main.css?v=4'; document.head.appendChild(stylesheet)
     const loadedScripts: HTMLScriptElement[] = []
     let cancelled = false
     const projectAliases: Record<string, string> = {
@@ -204,8 +204,20 @@ export function LegacyHomePage() {
       }
     }
     window.addEventListener('hashchange', scrollToHash)
+    // Same look on every device: report a fine-pointer, hover-capable, wide viewport to the legacy scripts.
+    // prefers-reduced-motion is left untouched on purpose.
+    const nativeMatchMedia = window.matchMedia.bind(window)
+    const forced: Record<string, boolean> = { '(pointer: coarse)': false, '(pointer: fine)': true, '(hover: hover)': true, '(hover: none)': false, '(max-width: 64rem)': false }
+    window.matchMedia = (query: string) => {
+      const m = nativeMatchMedia(query)
+      const key = query.replace(/\s+/g, ' ').trim()
+      return key in forced ? new Proxy(m, { get: (t, k) => k === 'matches' ? forced[key] : (typeof (t as any)[k] === 'function' ? (t as any)[k].bind(t) : (t as any)[k]) }) : m
+    }
     const load = async () => {
-      for (const source of ['/assets/main-r2-DOEoZWF8.js', '/experience/page-transition.js']) {
+      // Warm every lazy chunk the legacy bundle imports so the hero never pops in after the preloader.
+      const chunks = ['craft-g2-BN_yNEP7', 'featured-g2-C790QSJb', 'hero-grid-D0EBdqqM', 'highlight-text-vjdXAQNP', 'name-bend-C5Dx7leT', 'work-g2-ybNbFcJc']
+      await Promise.allSettled(chunks.map(name => import(/* @vite-ignore */ `/assets/${name}.js`)))
+      for (const source of ['/assets/main-g2-DOEoZWF8.js', '/experience/page-transition.js?v=4']) {
         if (cancelled) return
         await new Promise<void>((resolve, reject) => {
           const script = document.createElement('script'); script.type = 'module'; script.src = source
@@ -213,9 +225,14 @@ export function LegacyHomePage() {
           document.body.appendChild(script); loadedScripts.push(script)
         })
       }
-      setTimeout(() => {
+      setTimeout(async () => {
         syncProjectLinks()
         document.body.classList.remove('is-loading')
+        await document.fonts?.ready
+        await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))
+        if (cancelled) return
+        ;(window as any).__hellensHomeReady = true
+        window.dispatchEvent(new Event('hellens:home-ready'))
       }, 300)
       if (window.location.hash) {
         setTimeout(scrollToHash, 250)
@@ -224,7 +241,7 @@ export function LegacyHomePage() {
       }
     }
     void load()
-    return () => { cancelled = true; workObserver.disconnect(); window.removeEventListener('hashchange', scrollToHash); document.removeEventListener('click', openProject, true); document.removeEventListener('click', openMore); loadedScripts.forEach(script => script.remove()); stylesheet.remove(); document.body.classList.remove('legacy-experience', 'is-loading', 'no-webgl'); document.querySelector('.dome-grid')?.remove(); delete document.body.dataset.story }
+    return () => { cancelled = true; delete (window as any).__hellensHomeReady; window.matchMedia = nativeMatchMedia; workObserver.disconnect(); window.removeEventListener('hashchange', scrollToHash); document.removeEventListener('click', openProject, true); document.removeEventListener('click', openMore); loadedScripts.forEach(script => script.remove()); stylesheet.remove(); document.body.classList.remove('legacy-experience', 'is-loading', 'no-webgl'); document.querySelector('.dome-grid')?.remove(); delete document.body.dataset.story }
   }, [markup])
   const switchLanguage = (next: 'id' | 'en') => {
     if (next === language) return

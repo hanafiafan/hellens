@@ -90,3 +90,11 @@
 }
 .legacy-experience .work__detail-link:hover{transform:translateY(-2px);background:#a77cff}
 .legacy-experience .work__detail-link span{font-size:18px}
+
+/* Mobile polish: keep the ID/EN switch in the header row, fit the lede and the featured title. */
+@media(max-width:640px){
+  .hellens-controls{top:22px;right:196px}
+  .legacy-experience .section--lede{padding-top:16vh}
+  .legacy-experience .section--lede h2{font-size:clamp(1.45rem,6.6vw,2.1rem)}
+  .legacy-experience .featured__title{font-size:min(var(--display-size),10.5vw)!important}
+}
